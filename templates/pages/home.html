@@ -1,0 +1,377 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Superkids Storybook | Every Child Has a Story{% endblock %}
+
+{% block meta_description %}
+A creative community where children discover stories, develop their writing and illustration skills, participate in contests and explore publishing opportunities.
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="sk-home-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="sk-home-hero-copy">
+                    <span class="sk-eyebrow">
+                        A community for young storytellers
+                    </span>
+
+                    <h1 class="sk-home-title">
+                        Every child has a story
+                        <span>worth telling.</span>
+                    </h1>
+
+                    <p class="sk-home-lead">
+                        Some children love to read. Others love to draw,
+                        imagine new worlds or invent their own adventures.
+                        At Superkids, we help them explore those talents
+                        and discover what their ideas can become.
+                    </p>
+
+                    <div class="sk-home-actions">
+                        <a href="/club/" class="btn sk-btn sk-btn-primary">
+                            Discover the club
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="/books/" class="sk-home-secondary-link">
+                            Read free stories
+                            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                    <div class="sk-home-reassurance">
+                        <span class="sk-home-reassurance-icon"
+                              aria-hidden="true">
+                            <i class="bi bi-heart" ></i>
+                        </span>
+                        <span>
+                            A place for children to imagine, create and grow.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                
+                <div class="sk-hero-image-wrap">
+                    <img
+                        src="{% static 'images/superkids-hero.jpg' %}"
+                        alt="Children exploring their creativity through storytelling, drawing and books."
+                        class="sk-hero-image"
+                    >
+
+                    <div class="sk-image-caption">
+                        <span class="sk-image-caption-icon">
+                            <i class="bi bi-heart" aria-hidden="true"></i>
+                        </span>
+                        <span>
+                            <strong>Every idea matters.</strong>
+                            <small>Every child has potential.</small>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PURPOSE STRIP -->
+<section class="sk-home-purpose" aria-label="Our approach">
+    <div class="container">
+        <div class="sk-purpose-grid">
+            <div class="sk-purpose-item">
+                <span class="sk-purpose-icon">
+                    <i class="bi bi-book-half" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <strong>Discover stories</strong>
+                    <small>Read, explore and learn</small>
+                </span>
+            </div>
+
+            <div class="sk-purpose-item">
+                <span class="sk-purpose-icon sk-purpose-icon-orange">
+                    <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <strong>Develop creativity</strong>
+                    <small>Write, draw and imagine</small>
+                </span>
+            </div>
+
+            <div class="sk-purpose-item">
+                <span class="sk-purpose-icon sk-purpose-icon-green">
+                    <i class="bi bi-trophy" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <strong>Share their talent</strong>
+                    <small>Participate and grow</small>
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THE JOURNEY -->
+<section class="sk-home-journey sk-section">
+    <div class="container">
+        <div class="sk-section-heading">
+            <span class="sk-eyebrow">More than reading</span>
+
+            <h2 class="sk-section-title">
+                From a little idea to a story worth sharing.
+            </h2>
+
+            <p class="sk-section-description">
+                Children have wonderful ideas. With encouragement,
+                creative opportunities and a community behind them,
+                those ideas can grow into something they are proud of.
+            </p>
+        </div>
+
+        
+<div class="row g-4 sk-journey-grid">
+
+    <div class="col-md-6 col-lg-3">
+        <article class="sk-journey-item">
+            <img
+                src="{% static 'images/children-reading.jpg' %}"
+                alt="Children enjoying storybooks together"
+                class="sk-journey-image"
+                loading="lazy"
+            >
+            <div class="sk-journey-top">
+                <span class="sk-journey-number">01</span>
+            </div>
+            <h3>Find inspiration</h3>
+            <p>
+                Discover exciting stories, African tales,
+                new characters and different worlds.
+            </p>
+        </article>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <article class="sk-journey-item">
+            <img
+                src="{% static 'images/children-creating.jpg' %}"
+                alt="Children writing and illustrating their own stories"
+                class="sk-journey-image"
+                loading="lazy"
+            >
+            <div class="sk-journey-top">
+                <span class="sk-journey-number">02</span>
+            </div>
+            <h3>Make something</h3>
+            <p>
+                Turn imagination into original stories,
+                drawings, poems or comics.
+            </p>
+        </article>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <article class="sk-journey-item">
+            <img
+                src="{% static 'images/children-contest.jpg' %}"
+                alt="Children participating in a creative activity"
+                class="sk-journey-image"
+                loading="lazy"
+            >
+            <div class="sk-journey-top">
+                <span class="sk-journey-number">03</span>
+            </div>
+            <h3>Take part</h3>
+            <p>
+                Explore creative contests and activities
+                that give young talent room to shine.
+            </p>
+        </article>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <article class="sk-journey-item">
+            <img
+                src="{% static 'images/children-publishing.jpg' %}"
+                alt="A young storyteller sharing a finished piece of work"
+                class="sk-journey-image"
+                loading="lazy"
+            >
+            <div class="sk-journey-top">
+                <span class="sk-journey-number">04</span>
+            </div>
+            <h3>Share their story</h3>
+            <p>
+                Work towards opportunities to develop and
+                publish approved original creations.
+            </p>
+        </article>
+    </div>
+
+</div>
+
+    </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="sk-home-community">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                
+<div class="sk-community-photo">
+    <img
+        src="{% static 'images/superkids-community.jpg' %}"
+        alt="Children sharing stories and creative ideas"
+        loading="lazy"
+    >
+    <div class="sk-photo-label">
+        A community where young ideas grow
+    </div>
+</div>
+
+            </div>
+
+            <div class="col-lg-6">
+                <span class="sk-eyebrow">A place to belong</span>
+
+                <h2 class="sk-section-title mt-3">
+                    Their ideas deserve encouragement. Their creativity
+                    deserves a community.
+                </h2>
+
+                <p class="sk-section-description mt-3">
+                    The Superkids Storybook Club brings young readers
+                    and creators into a shared experience built around
+                    stories, magazines, contests and opportunities to
+                    express themselves.
+                </p>
+
+                <ul class="sk-community-list">
+                    <li>
+                        <i class="bi bi-check-circle-fill"
+                           aria-hidden="true"></i>
+                        <span>Enjoy storybooks and a termly magazine.</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle-fill"
+                           aria-hidden="true"></i>
+                        <span>Explore poetry, drawing and creative contests.</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle-fill"
+                           aria-hidden="true"></i>
+                        <span>Discover opportunities to develop original work.</span>
+                    </li>
+                </ul>
+
+                <a href="/club/" class="btn sk-btn sk-btn-primary mt-2">
+                    Explore club membership
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FREE READING -->
+<section class="sk-home-library sk-section">
+    <div class="container">
+        <div class="sk-library-panel">
+            <div class="sk-library-copy">
+                <span class="sk-eyebrow">A little reading goes a long way</span>
+
+                <h2 class="sk-section-title mt-3">
+                    Start with a story. See where it takes them.
+                </h2>
+
+                <p class="sk-section-description mt-3">
+                    Explore our free storybook library and discover
+                    the joy of reading before taking the next step
+                    into the Superkids community.
+                </p>
+
+                <a href="/books/" class="btn sk-btn sk-btn-primary mt-2">
+                    Explore free storybooks
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            
+<div class="sk-library-art">
+    <img
+        src="{% static 'images/storybook-library.jpg' %}"
+        alt="A collection of colourful children's storybooks"
+        loading="lazy"
+    >
+</div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PARENT-FACING MEMBERSHIP CTA -->
+<section class="sk-home-membership">
+    <div class="container">
+        <div class="sk-membership-panel">
+           
+<div class="sk-membership-photo">
+    <img
+        src="{% static 'images/parent-child-reading.jpg' %}"
+        alt="A parent reading a storybook with a child"
+        loading="lazy"
+    >
+</div>
+
+
+            <div class="sk-membership-action">
+                <span class="sk-membership-price-label">
+                    Annual club membership
+                </span>
+
+                <div class="sk-membership-price">
+                    <span class="sk-currency">₦</span>6,000
+                    <small>/ year</small>
+                </div>
+
+                <p>
+                    Explore the membership benefits and registration details.
+                </p>
+
+                <a href="/club/" class="btn sk-btn sk-btn-yellow">
+                    See membership details
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CLOSING -->
+<section class="sk-home-closing">
+    <div class="container">
+        <div class="sk-closing-content">
+            <span class="sk-eyebrow">The next story could be theirs</span>
+
+            <h2>
+                What could your child's imagination become?
+            </h2>
+
+            <p>
+                Help them take the first step.
+            </p>
+
+            <a href="/club/" class="btn sk-btn sk-btn-primary">
+                Discover Superkids
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

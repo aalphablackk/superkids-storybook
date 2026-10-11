@@ -1,0 +1,58 @@
+
+<nav class="navbar navbar-expand-lg sk-navbar" aria-label="Main navigation">
+    <div class="container">
+        <a class="navbar-brand sk-brand" href="/">
+            <span class="sk-brand-mark" aria-hidden="true">
+                <i class="bi bi-book-half"></i>
+            </span>
+            <span class="sk-brand-copy">
+                <span class="sk-brand-name">Superkids</span>
+                <span class="sk-brand-tagline">STORYBOOK</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books/">Storybooks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/club/">Storybook Club</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contests/">Contests</a>
+                </li>
+            </ul>
+
+            <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 pb-3 pb-lg-0">
+                {% if user.is_authenticated %}
+                    <a class="btn sk-btn sk-btn-primary" href="/dashboard/">
+                        My Dashboard
+                    </a>
+                {% else %}
+                    <a class="sk-login-link" href="/accounts/login/">
+                        Log in
+                    </a>
+                    <a class="btn sk-btn sk-btn-primary" href="/accounts/register/">
+                        Join the Club
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

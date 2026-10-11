@@ -34,16 +34,16 @@ ALLOWED_HOSTS = [
     host.strip()
     for host in config(
         "ALLOWED_HOSTS",
-        default="127.0.0.1,localhost,*"
+        default="*"
     ).split(",")
     if host.strip()
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    origin.strip()
-    for origin in config("CSRF_TRUSTED_ORIGINS", default="").split(",")
-    if origin.strip()
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     origin.strip()
+#     for origin in config("CSRF_TRUSTED_ORIGINS", default="").split(",")
+#     if origin.strip()
+# ]
 
 # ============================================================
 # CLOUDINARY
