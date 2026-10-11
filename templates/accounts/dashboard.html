@@ -1,0 +1,181 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Dashboard | Superkids Storybook{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+
+        {% include "accounts/includes/account_page_header.html" with eyebrow="PARENT PORTAL" title="Welcome back" subtitle="Manage your family profiles and follow your children's reading journey." %}
+
+        <!-- Quick actions -->
+        <div class="row g-3 mb-5">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{% url 'accounts:children' %}"
+                   class="sk-dashboard-action card h-100 text-decoration-none">
+                    <div class="card-body p-4">
+                        <div class="sk-dashboard-action-icon mb-3">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h2 class="h5 fw-bold">Children's Profiles</h2>
+                        <p class="text-body-secondary mb-0">
+                            View and manage your children's profiles.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{% url 'accounts:profile' %}"
+                   class="sk-dashboard-action card h-100 text-decoration-none">
+                    <div class="card-body p-4">
+                        <div class="sk-dashboard-action-icon mb-3">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h2 class="h5 fw-bold">Parent Profile</h2>
+                        <p class="text-body-secondary mb-0">
+                            Update your contact and personal information.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="{% url 'books:library' %}"
+                   class="sk-dashboard-action card h-100 text-decoration-none">
+                    <div class="card-body p-4">
+                        <div class="sk-dashboard-action-icon mb-3">
+                            <i class="bi bi-book"></i>
+                        </div>
+                        <h2 class="h5 fw-bold">Explore Storybooks</h2>
+                        <p class="text-body-secondary mb-0">
+                            Discover stories available in the free library.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Children -->
+        <section class="mb-5">
+            <div class="sk-section-heading d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                <div>
+                    <h2 class="h4 fw-bold mb-1">Your Children</h2>
+                    <p class="text-body-secondary mb-0">
+                        Keep each child's reading journey organised.
+                    </p>
+                </div>
+
+                <a href="{% url 'accounts:child_create' %}"
+                   class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+                    Add Child
+                </a>
+            </div>
+
+            {% if children %}
+                <div class="row g-3">
+                    {% for child in children %}
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="sk-dashboard-child card h-100">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-start gap-3">
+                                        <div class="sk-dashboard-avatar">
+                                            {{ child.first_name|first|upper }}
+                                        </div>
+
+                                        <div class="flex-grow-1 min-w-0">
+                                            <h3 class="h5 fw-bold mb-1">
+                                                {{ child.first_name }}
+                                                {{ child.last_name }}
+                                            </h3>
+
+                                            <p class="text-body-secondary small mb-2">
+                                                {% if child.age != None %}
+                                                    {{ child.age }} years old
+                                                {% else %}
+                                                    Age not available
+                                                {% endif %}
+                                            </p>
+
+                                            {% if child.school %}
+                                                <p class="small mb-3">
+                                                    {{ child.school }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <a href="{% url 'accounts:child_detail' child.pk %}"
+                                       class="btn btn-outline-primary w-100 mt-3">
+                                        View Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {% include "accounts/includes/empty_state.html" with icon="bi-people" title="No child profiles yet" message="Add your first child profile to start organising their reading activities." action_url=child_create_url action_label="Add a Child" %}
+            {% endif %}
+        </section>
+
+        <!-- Reading activity -->
+        <section class="mb-4">
+            <div class="mb-3">
+                <h2 class="h4 fw-bold mb-1">Recent Reading Activity</h2>
+                <p class="text-body-secondary mb-0">
+                    Pick up where your children left off.
+                </p>
+            </div>
+
+            {% if reading_progress %}
+                <div class="sk-reading-activity card">
+                    <div class="list-group list-group-flush">
+                        {% for progress in reading_progress %}
+                            <div class="list-group-item p-3 p-md-4">
+                                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+                                    <div>
+                                        <h3 class="h6 fw-bold mb-1">
+                                            {{ progress.book.title }}
+                                        </h3>
+
+                                        <p class="small text-body-secondary mb-1">
+                                            Reader:
+                                            {{ progress.child.first_name }}
+                                            {{ progress.child.last_name }}
+                                        </p>
+
+                                        {% if progress.is_completed %}
+                                            <span class="badge text-bg-success">
+                                                Completed
+                                            </span>
+                                        {% else %}
+                                            <span class="badge text-bg-light border">
+                                                Page {{ progress.current_page }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <a href="{% url 'books:book_detail' progress.book.slug %}"
+                                       class="btn btn-outline-primary btn-sm">
+                                        {% if progress.is_completed %}
+                                            Read Again
+                                        {% else %}
+                                            Continue Reading
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                {% include "accounts/includes/empty_state.html" with icon="bi-book" title="Your reading journey starts here" message="Explore the free library and discover a story to read together." action_url=library_url action_label="Explore Free Storybooks" %}
+            {% endif %}
+        </section>
+
+    </div>
+</section>
+{% endblock %}

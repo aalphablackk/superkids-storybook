@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    {% if child %}Edit Child Profile{% else %}Add Child Profile{% endif %} | Superkids Storybook
+{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+
+        {% include "accounts/includes/account_page_header.html" with eyebrow="FAMILY PROFILES" title=page_title subtitle="Add your child's details to help organise their reading journey." %}
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 col-xl-8">
+
+                <div class="sk-account-card card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Current photo or initials -->
+                        <div class="sk-child-form-avatar-wrap mb-4">
+                            <div class="sk-child-form-avatar">
+                                {% if form.instance.profile_image %}
+                                    <img
+                                        src="{{ form.instance.profile_image.url }}"
+                                        alt="Current child profile photo"
+                                        class="sk-avatar-image"
+                                    >
+                                {% else %}
+                                    <i class="bi bi-person" aria-hidden="true"></i>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h2 class="h6 fw-bold mb-1">Child's profile photo</h2>
+                                <p class="small text-body-secondary mb-0">
+                                    Optional. You can upload a photo using the field below.
+                                </p>
+                            </div>
+                        </div>
+
+                        <form method="post" enctype="multipart/form-data" novalidate>
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.non_field_errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="sk-form-section mb-4">
+                                <h2 class="h6 fw-bold mb-3">Personal details</h2>
+
+                                <div class="row">
+                                    {% for field in form %}
+                                        {% if field.name == "first_name" or field.name == "last_name" or field.name == "date_of_birth" or field.name == "gender" or field.name == "profile_image" %}
+                                            <div class="col-12 {% if field.name == 'first_name' or field.name == 'last_name' or field.name == 'date_of_birth' or field.name == 'gender' %}col-md-6{% endif %}">
+                                                {% include "accounts/includes/form_field.html" with field=field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="sk-form-section mb-4">
+                                <h2 class="h6 fw-bold mb-3">School information</h2>
+
+                                <div class="row">
+                                    {% for field in form %}
+                                        {% if field.name == "school" or field.name == "class_level" %}
+                                            <div class="col-12 col-md-6">
+                                                {% include "accounts/includes/form_field.html" with field=field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 pt-3 border-top">
+                                <a href="{% url 'accounts:children' %}"
+                                   class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-check2 me-1" aria-hidden="true"></i>
+                                    {% if child %}Save Changes{% else %}Add Child Profile{% endif %}
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

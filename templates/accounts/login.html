@@ -1,0 +1,77 @@
+
+{% extends "base.html" %}
+
+{% block title %}Sign In | Superkids Storybook{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+
+                <div class="sk-account-card card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="text-center mb-4">
+                            <p class="sk-account-eyebrow mb-2">
+                                WELCOME BACK
+                            </p>
+                            <h1 class="sk-account-title h2 mb-2">
+                                Sign in to your account
+                            </h1>
+                            <p class="sk-account-subtitle mx-auto">
+                                Continue your family's reading journey.
+                            </p>
+                        </div>
+
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.non_field_errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% for field in form %}
+                                {% include "accounts/includes/form_field.html" with field=field %}
+                            {% endfor %}
+
+                            {% if next %}
+                                <input type="hidden" name="next" value="{{ next }}">
+                            {% endif %}
+
+                            <div class="text-end mb-4">
+                                <a href="{% url 'accounts:password_reset' %}"
+                                   class="sk-account-link">
+                                    Forgot password?
+                                </a>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100 py-2">
+                                Sign In
+                            </button>
+                        </form>
+
+                        <div class="sk-account-divider my-4">
+                            <span>New to Superkids?</span>
+                        </div>
+
+                        <p class="text-center mb-0">
+                            <a href="{% url 'accounts:register' %}"
+                               class="sk-account-link fw-semibold">
+                                Create a parent account
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

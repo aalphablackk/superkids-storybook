@@ -1,0 +1,168 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ child.first_name }}'s Profile | Superkids Storybook{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+
+        {% include "accounts/includes/account_page_header.html" with eyebrow="FAMILY PROFILES" title=child.first_name subtitle="View your child's profile and reading activity." %}
+
+        <!-- Actions -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <a href="{% url 'accounts:children' %}"
+               class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
+                All Children
+            </a>
+
+            <a href="{% url 'accounts:child_edit' child.pk %}"
+               class="btn btn-primary">
+                <i class="bi bi-pencil me-1" aria-hidden="true"></i>
+                Edit Profile
+            </a>
+
+            <button type="button"
+                    class="btn btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteChildModal">
+                <i class="bi bi-trash me-1" aria-hidden="true"></i>
+                Delete Profile
+            </button>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Child information -->
+            <div class="col-12 col-lg-5">
+                <div class="sk-account-card card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="text-center mb-4">
+                            <div class="sk-child-detail-avatar mx-auto mb-3">
+                                {% if child.profile_image %}
+                                    <img
+                                        src="{{ child.profile_image.url }}"
+                                        alt="{{ child.first_name }}'s profile photo"
+                                        class="sk-avatar-image"
+                                    >
+                                {% else %}
+                                    {{ child.first_name|first|upper }}
+                                {% endif %}
+                            </div>
+
+                            <h2 class="h4 fw-bold mb-1">
+                                {{ child.first_name }} {{ child.last_name }}
+                            </h2>
+
+                            {% if child.age != None %}
+                                <p class="text-body-secondary mb-0">
+                                    {{ child.age }} years old
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <hr>
+
+                        <h3 class="h6 fw-bold mb-3">Personal information</h3>
+
+                        <dl class="sk-child-detail-list mb-0">
+                            <div>
+                                <dt>Date of birth</dt>
+                                <dd>
+                                    {{ child.date_of_birth|date:"j F Y" }}
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Gender</dt>
+                                <dd>
+                                    {{ child.get_gender_display|default:"Not provided" }}
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>School</dt>
+                                <dd>{{ child.school|default:"Not provided" }}</dd>
+                            </div>
+
+                            <div>
+                                <dt>Class / Level</dt>
+                                <dd>{{ child.class_level|default:"Not provided" }}</dd>
+                            </div>
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reading activity -->
+            <div class="col-12 col-lg-7">
+                <div class="sk-account-card card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+
+                        <h2 class="h5 fw-bold mb-2">Reading activity</h2>
+                        <p class="text-body-secondary small mb-4">
+                            Track the stories your child has started and completed.
+                        </p>
+
+                        {% if reading_progress %}
+                            <div class="list-group list-group-flush">
+                                {% for progress in reading_progress %}
+                                    <div class="list-group-item px-0 py-3">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-3">
+
+                                            <div>
+                                                <h3 class="h6 fw-bold mb-1">
+                                                    {{ progress.book.title }}
+                                                </h3>
+
+                                                <p class="small text-body-secondary mb-2">
+                                                    Last read:
+                                                    {{ progress.last_read_at|date:"j M Y, g:i a" }}
+                                                </p>
+
+                                                {% if progress.is_completed %}
+                                                    <span class="badge text-bg-success">
+                                                        Completed
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge text-bg-light border">
+                                                        Page {{ progress.current_page }}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+
+                                            <a href="{% url 'books:book_detail' progress.book.slug %}"
+                                               class="btn btn-outline-primary btn-sm align-self-sm-center">
+                                                {% if progress.is_completed %}
+                                                    Read Again
+                                                {% else %}
+                                                    Continue Reading
+                                                {% endif %}
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% include "accounts/includes/empty_state.html" with icon="bi-book" title="No reading activity yet" message="Explore the free storybook library and choose a story to begin." action_url=library_url action_label="Explore Storybooks" %}
+                        {% endif %}
+
+                        <a href="{% url 'books:library' %}"
+                           class="btn btn-primary w-100 mt-4">
+                            Explore Free Storybooks
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% include "accounts/includes/confirm_modal.html" with modal_id="deleteChildModal" title="Delete child profile?" message="Are you sure you want to delete this profile? This action cannot be undone." confirm_url=delete_url confirm_label="Delete Profile" %}
+{% endblock %}

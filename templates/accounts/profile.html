@@ -1,0 +1,137 @@
+
+{% extends "base.html" %}
+
+{% block title %}Parent Profile | Superkids Storybook{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+
+        {% include "accounts/includes/account_page_header.html" with eyebrow="ACCOUNT SETTINGS" title="Parent profile" subtitle="Keep your contact information up to date so you can manage your family's reading journey." %}
+
+        <div class="row g-4">
+
+            <!-- Profile navigation -->
+            <div class="col-12 col-lg-4">
+                <div class="sk-profile-sidebar card">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="sk-profile-avatar" aria-label="Parent profile photo">
+                                 {% if form.instance.profile_image %}
+                                    <img
+                                        src="{{ form.instance.profile_image.url }}"
+                                        alt="Profile photo"
+                                        class="sk-avatar-image"
+                                    >
+                                {% else %}
+                                    {% with first=user.first_name|first last=user.last_name|first %}
+                                        {% if first or last %}
+                                            {{ first|upper }}{{ last|upper }}
+                                        {% else %}
+                                            {{ user.username|first|upper }}
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endif %}
+                            </div>
+
+                            <div class="min-w-0">
+                                <h2 class="h6 fw-bold mb-1 text-break">
+                                    {{ user.get_full_name|default:user.username }}
+                                </h2>
+                                <p class="small text-body-secondary mb-0 text-break">
+                                    {{ user.email }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <nav class="nav flex-column sk-profile-nav"
+                             aria-label="Account settings">
+                            <a class="nav-link active"
+                               href="{% url 'accounts:profile' %}"
+                               aria-current="page">
+                                <i class="bi bi-person me-2" aria-hidden="true"></i>
+                                Parent Profile
+                            </a>
+
+                            <a class="nav-link"
+                               href="{% url 'accounts:children' %}">
+                                <i class="bi bi-people me-2" aria-hidden="true"></i>
+                                Children's Profiles
+                            </a>
+
+                            <a class="nav-link"
+                               href="{% url 'accounts:dashboard' %}">
+                                <i class="bi bi-grid me-2" aria-hidden="true"></i>
+                                Dashboard
+                            </a>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editable profile -->
+            <div class="col-12 col-lg-8">
+                <div class="sk-account-card card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="mb-4">
+                            <h2 class="h5 fw-bold mb-2">Personal information</h2>
+                            <p class="small text-body-secondary mb-0">
+                                Fields marked with an asterisk are required by the form.
+                            </p>
+                        </div>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+                                     role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="post" enctype="multipart/form-data" novalidate>
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {% for error in form.non_field_errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="row">
+                                {% for field in form %}
+                                    <div class="col-12 {% if field.name == 'phone' or field.name == 'whatsapp_number' or field.name == 'occupation' or field.name == 'social_media' %}col-md-6{% endif %}">
+                                        {% include "accounts/includes/form_field.html" with field=field %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-3">
+                                <a href="{% url 'accounts:dashboard' %}"
+                                   class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-check2 me-1" aria-hidden="true"></i>
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

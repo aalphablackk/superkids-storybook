@@ -171,3 +171,33 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ReadingProgress(models.Model):
+    child = models.ForeignKey(
+        "accounts.ChildProfile",
+        on_delete=models.CASCADE,
+        related_name="reading_progress",
+    )
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        related_name="reading_progress",
+    )
+    current_page = models.PositiveIntegerField(default=1)
+    is_completed = models.BooleanField(default=False)
+    last_read_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-last_read_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["child", "book"],
+                name="unique_child_book_reading_progress",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.child} — {self.book.title}"
+    

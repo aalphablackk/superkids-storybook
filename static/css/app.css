@@ -3033,3 +3033,1935 @@ button, a, input, select, textarea {
 .sk-reader-fullscreen-fallback {
     scroll-behavior: smooth;
 }
+
+/* Reader page jump */
+
+.sk-reader-page-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.sk-reader-jump-form {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.sk-reader-jump-form label {
+    color: var(--sk-text-muted, #68768a);
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.sk-reader-jump-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.sk-reader-jump-input {
+    width: 76px;
+    min-height: 40px;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--sk-border, #e4e8ee);
+    border-radius: 0.65rem;
+    background: var(--sk-white, #fff);
+    color: var(--sk-navy, #17345c);
+    font: inherit;
+    text-align: center;
+}
+
+.sk-reader-jump-input:focus {
+    border-color: var(--sk-blue, #2868a8);
+    outline: 3px solid rgb(40 104 168 / 15%);
+}
+
+.sk-reader-jump-input[aria-invalid="true"] {
+    border-color: #c0392b;
+}
+
+.sk-reader-jump-button {
+    min-height: 40px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--sk-blue, #2868a8);
+    border-radius: 0.65rem;
+    background: var(--sk-blue, #2868a8);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.sk-reader-jump-button:hover {
+    background: var(--sk-navy, #17345c);
+}
+
+.sk-reader-jump-error {
+    min-height: 0;
+    color: #b42318;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.sk-reader-jump-error:empty {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .sk-reader-page-navigation {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        width: 100%;
+    }
+
+    .sk-reader-jump-form {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sk-reader-navigation {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .sk-reader-page-count {
+        grid-column: 1 / -1;
+    }
+}
+/* =========================================
+   SUPERKIDS — BOOK OPENING EXPERIENCE
+   ========================================= */
+
+/* Keep the reader within its parent and prevent child elements from widening it. */
+.sk-reading-room,
+.sk-book-stage,
+.sk-reader-page,
+.sk-reader-page-body {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.sk-book-stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    perspective: 1400px;
+    margin: 1.5rem auto;
+    padding: clamp(10px, 2.5vw, 24px);
+    background: #e9dfcc;
+    border: 1px solid #d7c8ad;
+    border-radius: 8px 14px 14px 8px;
+    box-shadow:
+        0 14px 32px rgb(23 52 92 / 12%),
+        inset 5px 0 0 rgb(120 91 52 / 12%);
+}
+
+.sk-reader-cover {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.25rem, 4vw, 3rem);
+    padding: clamp(1.25rem, 4vw, 3rem);
+    overflow: hidden;
+    border: 1px solid #d4b77e;
+    border-radius: 0.35rem 0.75rem 0.75rem 0.35rem;
+    background:
+        radial-gradient(circle at 80% 15%, rgb(255 255 255 / 13%), transparent 35%),
+        linear-gradient(135deg, #244a75, #17345c 60%, #102845);
+    box-shadow:
+        inset 8px 0 12px rgb(0 0 0 / 13%),
+        0 14px 32px rgb(23 52 92 / 15%);
+    color: #fff;
+    transform-origin: left center;
+    backface-visibility: hidden;
+}
+
+.sk-reader-cover::before {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgb(255 212 92 / 55%);
+    border-radius: 0.25rem 0.6rem 0.6rem 0.25rem;
+    content: "";
+    pointer-events: none;
+}
+
+.sk-reader-cover-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex: 0 1 38%;
+    width: min(38%, 250px);
+    max-width: 250px;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0.3rem;
+    box-shadow: 0 14px 30px rgb(0 0 0 / 25%);
+}
+
+.sk-reader-cover-content {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 440px;
+    text-align: left;
+}
+
+.sk-reader-cover-label {
+    display: block;
+    margin-bottom: 0.85rem;
+    color: #ffe29a;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+}
+
+.sk-reader-cover-content h3 {
+    margin: 0 0 0.85rem;
+    color: #fff;
+    font-size: clamp(1.45rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.sk-reader-cover-content p {
+    margin: 0 0 1.5rem;
+    color: rgb(255 255 255 / 82%);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.sk-reader-open-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    min-height: 48px;
+    max-width: 100%;
+    padding: 0.75rem 1.35rem;
+    border: 1px solid #ffe29a;
+    border-radius: 999px;
+    background: #ffd45c;
+    color: #17345c;
+    font: inherit;
+    font-weight: 900;
+    line-height: 1.3;
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    box-shadow: 0 5px 14px rgb(0 0 0 / 12%);
+    transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.sk-reader-open-button:hover {
+    background: #ffe29a;
+    transform: translateY(-2px);
+}
+
+.sk-reader-open-button:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+}
+
+.sk-reader-open-button:disabled {
+    cursor: wait;
+    opacity: 0.8;
+}
+
+.sk-reader-page {
+    position: relative;
+    min-height: 440px;
+    padding: clamp(20px, 4.5vw, 52px);
+    overflow-wrap: anywhere;
+    background: #fffdf6;
+    border: 1px solid #eee5d3;
+    border-radius: 3px 8px 8px 3px;
+    box-shadow: inset 7px 0 10px rgb(100 75 40 / 4%);
+}
+
+.sk-reader-page-body {
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-height: 1.9;
+}
+
+.sk-reader-page-body p {
+    margin-bottom: 1.25rem;
+}
+
+.sk-book-is-closed .sk-reader-page {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.sk-book-is-closed .sk-reader-cover {
+    display: flex;
+}
+
+.sk-book-stage:not(.sk-book-is-closed):not(.sk-book-opening) .sk-reader-cover {
+    display: none;
+}
+
+.sk-book-opening .sk-reader-cover {
+    animation: skBookCoverOpen 650ms ease-in forwards;
+    pointer-events: none;
+}
+
+.sk-book-opening .sk-reader-page {
+    visibility: visible;
+    opacity: 1;
+    animation: skBookPageReveal 650ms ease-out both;
+}
+
+@keyframes skBookCoverOpen {
+    0% {
+        transform: perspective(1400px) rotateY(0);
+        opacity: 1;
+    }
+
+    65% {
+        transform: perspective(1400px) rotateY(-105deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: perspective(1400px) rotateY(-155deg);
+        opacity: 0;
+    }
+}
+
+@keyframes skBookPageReveal {
+    0%, 45% {
+        opacity: 0;
+        transform: translateX(12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* One page turns at a time. */
+.sk-reader-page.sk-page-turn-next {
+    animation: skPageTurnNext 320ms ease both;
+}
+
+.sk-reader-page.sk-page-turn-prev {
+    animation: skPageTurnPrev 320ms ease both;
+}
+
+@keyframes skPageTurnNext {
+    0% {
+        opacity: 0.6;
+        transform: perspective(1000px) rotateY(-7deg) translateX(12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0) translateX(0);
+    }
+}
+
+@keyframes skPageTurnPrev {
+    0% {
+        opacity: 0.6;
+        transform: perspective(1000px) rotateY(7deg) translateX(-12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0) translateX(0);
+    }
+}
+
+/* Go-to-page controls. Supports the IDs used in the reader markup. */
+#sk-reader-jump-form,
+.sk-reader-jump-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+}
+
+#sk-reader-jump-input,
+.sk-reader-jump-input {
+    flex: 0 1 76px;
+    width: 76px;
+    max-width: 100%;
+    min-width: 0;
+    text-align: center;
+}
+
+#sk-reader-jump-form button,
+.sk-reader-jump-form button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+#sk-reader-jump-error,
+.sk-reader-jump-error {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+/* Keep navigation controls within the reader width. */
+.sk-reader-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.sk-reader-navigation > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 700px) {
+    .sk-book-stage {
+        margin: 1rem auto;
+        padding: 8px;
+        border-radius: 6px 10px 10px 6px;
+    }
+
+    .sk-reader-cover {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem 1.25rem;
+        text-align: center;
+    }
+
+    .sk-reader-cover-image {
+        flex: 0 1 auto;
+        width: auto;
+        max-width: min(145px, 42%);
+        max-height: clamp(105px, 25vh, 175px);
+    }
+
+    .sk-reader-cover-content {
+        flex: 0 1 auto;
+        width: 100%;
+        max-width: 440px;
+        text-align: center;
+    }
+
+    .sk-reader-cover-label {
+        margin-bottom: 0.5rem;
+        font-size: 0.64rem;
+    }
+
+    .sk-reader-cover-content h3 {
+        margin-bottom: 0.55rem;
+        font-size: clamp(1.15rem, 5vw, 1.6rem);
+        line-height: 1.2;
+    }
+
+    .sk-reader-cover-content p {
+        margin-bottom: 0.85rem;
+        font-size: 0.92rem;
+    }
+
+    .sk-reader-open-button {
+        min-height: 44px;
+        padding: 0.65rem 1.1rem;
+    }
+
+    .sk-reader-page {
+        min-height: 380px;
+        padding: 22px 17px;
+    }
+
+    .sk-reader-page-body {
+        font-size: 1rem;
+        line-height: 1.85;
+    }
+
+    .sk-reader-navigation {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #sk-reader-jump-form,
+    .sk-reader-jump-form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #sk-reader-jump-form label,
+    .sk-reader-jump-form label {
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+
+    #sk-reader-jump-input,
+    .sk-reader-jump-input {
+        width: 100%;
+        flex: initial;
+    }
+
+    #sk-reader-jump-error,
+    .sk-reader-jump-error {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 380px) {
+    .sk-reader-cover {
+        gap: 0.7rem;
+        padding: 1.1rem 0.8rem;
+    }
+
+    .sk-reader-cover-image {
+        max-width: min(118px, 40%);
+        max-height: 115px;
+    }
+
+    .sk-reader-cover-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .sk-reader-page {
+        min-height: 360px;
+        padding: 18px 13px;
+    }
+
+    .sk-reader-navigation {
+        gap: 8px;
+    }
+
+    .sk-reader-navigation button {
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sk-book-opening .sk-reader-cover,
+    .sk-book-opening .sk-reader-page,
+    .sk-reader-page.sk-page-turn-next,
+    .sk-reader-page.sk-page-turn-prev {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .sk-reader-open-button {
+        transition: none;
+    }
+}
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/* =========================================================
+   SUPERKIDS — ACCOUNTS INTERFACE
+   Shared account pages and reusable components
+   ========================================================= */
+
+.sk-account {
+    width: 100%;
+    min-width: 0;
+    padding-block: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.sk-account-container {
+    width: min(100% - 2rem, 1120px);
+    margin-inline: auto;
+}
+
+.sk-account-narrow {
+    width: min(100%, 560px);
+    margin-inline: auto;
+}
+
+.sk-account-heading {
+    margin-bottom: 1.75rem;
+}
+
+.sk-account-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.65rem;
+    color: var(--sk-blue);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.sk-account-title {
+    margin: 0 0 0.65rem;
+    color: var(--sk-navy);
+    font-size: clamp(1.65rem, 4vw, 2.35rem);
+    font-weight: 800;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.sk-account-subtitle {
+    max-width: 680px;
+    margin: 0;
+    color: var(--bs-secondary-color, #667085);
+    line-height: 1.75;
+}
+
+.sk-account-card {
+    min-width: 0;
+    padding: clamp(1.15rem, 3vw, 2rem);
+    border: 1px solid var(--bs-border-color, #e5e7eb);
+    border-radius: 1rem;
+    background: var(--bs-body-bg, #fff);
+    box-shadow: 0 8px 28px rgb(23 52 92 / 5%);
+}
+
+.sk-account-card-title {
+    margin-bottom: 0.35rem;
+    color: var(--sk-navy);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.sk-account-muted {
+    color: var(--bs-secondary-color, #667085);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.sk-account .form-label {
+    margin-bottom: 0.45rem;
+    color: var(--sk-navy);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.sk-account .form-control,
+.sk-account .form-select {
+    min-height: 46px;
+    border-radius: 0.65rem;
+}
+
+.sk-account textarea.form-control {
+    min-height: 110px;
+}
+
+.sk-account .form-control:focus,
+.sk-account .form-select:focus {
+    border-color: var(--sk-blue);
+    box-shadow: 0 0 0 0.2rem rgb(40 104 168 / 14%);
+}
+
+.sk-account .form-text {
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.sk-account .invalid-feedback {
+    display: block;
+}
+
+.sk-account .btn {
+    min-height: 44px;
+    border-radius: 0.65rem;
+    font-weight: 700;
+}
+
+.sk-account .btn-primary {
+    border-color: var(--sk-navy);
+    background: var(--sk-navy);
+}
+
+.sk-account .btn-primary:hover {
+    border-color: var(--sk-blue);
+    background: var(--sk-blue);
+}
+
+.sk-account .btn-outline-primary {
+    border-color: var(--sk-blue);
+    color: var(--sk-blue);
+}
+
+.sk-account .btn-outline-primary:hover {
+    background: var(--sk-blue);
+    color: #fff;
+}
+
+.sk-account-link {
+    color: var(--sk-blue);
+    font-weight: 700;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.sk-account-link:hover {
+    color: var(--sk-navy);
+}
+
+.sk-account-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-block: 1.5rem;
+    color: var(--bs-secondary-color, #667085);
+    font-size: 0.8rem;
+}
+
+.sk-account-divider::before,
+.sk-account-divider::after {
+    height: 1px;
+    flex: 1;
+    background: var(--bs-border-color, #e5e7eb);
+    content: "";
+}
+
+.sk-account-icon-box {
+    display: inline-flex;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.8rem;
+    background: var(--sk-blue-light);
+    color: var(--sk-navy);
+    font-size: 1.2rem;
+}
+
+.sk-account-stat {
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--bs-border-color, #e5e7eb);
+    border-radius: 0.9rem;
+    background: var(--bs-body-bg, #fff);
+}
+
+.sk-account-stat-value {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--sk-navy);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+}
+
+.sk-account-stat-label {
+    color: var(--bs-secondary-color, #667085);
+    font-size: 0.85rem;
+}
+
+.sk-account-profile-card {
+    height: 100%;
+    padding: 1.25rem;
+    border: 1px solid var(--bs-border-color, #e5e7eb);
+    border-radius: 0.9rem;
+    background: var(--bs-body-bg, #fff);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.sk-account-profile-card:hover {
+    border-color: var(--sk-blue);
+    box-shadow: 0 8px 22px rgb(23 52 92 / 7%);
+}
+
+.sk-account-avatar {
+    display: inline-flex;
+    width: 54px;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.sk-account-empty {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px dashed var(--bs-border-color, #d7dce2);
+    border-radius: 1rem;
+    background: var(--bs-tertiary-bg, #f8f9fa);
+    text-align: center;
+}
+
+.sk-account-empty .sk-account-icon-box {
+    margin-bottom: 1rem;
+}
+
+.sk-account-section {
+    margin-top: 2rem;
+}
+
+.sk-account-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.sk-account-section-heading h2 {
+    margin: 0;
+    color: var(--sk-navy);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.sk-account .accordion {
+    --bs-accordion-border-radius: 0.75rem;
+    --bs-accordion-inner-border-radius: 0.75rem;
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.2rem rgb(40 104 168 / 14%);
+}
+
+.sk-account .accordion-button {
+    color: var(--sk-navy);
+    font-weight: 700;
+}
+
+.sk-account .accordion-button:not(.collapsed) {
+    background: var(--sk-blue-light);
+    color: var(--sk-navy);
+    box-shadow: none;
+}
+
+.sk-account .modal-content {
+    overflow: hidden;
+    border: 0;
+    border-radius: 1rem;
+}
+
+.sk-account .modal-header {
+    background: var(--sk-cream);
+}
+
+.sk-account .modal-title {
+    color: var(--sk-navy);
+    font-weight: 800;
+}
+
+.sk-account .alert {
+    border-radius: 0.75rem;
+}
+
+.sk-account [aria-live="polite"] {
+    overflow-wrap: anywhere;
+}
+
+.sk-account-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.sk-account-form-section {
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--bs-border-color, #e5e7eb);
+}
+
+.sk-account-form-section:first-child {
+    padding-top: 0;
+}
+
+.sk-account-form-section:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.sk-account-form-section h2 {
+    margin-bottom: 0.4rem;
+    color: var(--sk-navy);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+@media (max-width: 575.98px) {
+    .sk-account-container {
+        width: min(100% - 1.25rem, 1120px);
+    }
+
+    .sk-account {
+        padding-block: 1.25rem 2rem;
+    }
+
+    .sk-account-card {
+        border-radius: 0.8rem;
+    }
+
+    .sk-account-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .sk-account-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sk-account-profile-card {
+        transition: none;
+    }
+}
+
+/* =========================================================
+   SUPERKIDS ACCOUNT COMPONENTS
+   Reusable styles for account pages and partials
+========================================================= */
+
+.sk-form-field .form-label {
+    color: var(--sk-navy);
+    font-weight: 600;
+    margin-bottom: 0.45rem;
+}
+
+.sk-form-field .form-control,
+.sk-form-field .form-select {
+    min-height: 46px;
+    border-color: var(--sk-blue-light);
+    border-radius: 10px;
+}
+
+.sk-form-field textarea.form-control {
+    min-height: 110px;
+}
+
+.sk-form-field .form-control:focus,
+.sk-form-field .form-select:focus {
+    border-color: var(--sk-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.06);
+}
+
+.sk-form-field .form-control.is-invalid,
+.sk-form-field .form-select.is-invalid {
+    border-color: var(--bs-form-invalid-border-color);
+}
+
+.sk-account-heading {
+    max-width: 760px;
+}
+
+.sk-account-eyebrow {
+    color: var(--sk-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.sk-account-title {
+    color: var(--sk-navy);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.sk-account-subtitle {
+    color: var(--bs-secondary-color);
+    line-height: 1.7;
+    max-width: 650px;
+}
+
+.sk-empty-state {
+    padding: clamp(1.5rem, 4vw, 3rem) 1.25rem;
+    border: 1px dashed var(--sk-blue-light);
+    border-radius: 16px;
+    background: var(--bs-tertiary-bg);
+}
+
+.sk-empty-state-icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1.5rem;
+}
+
+.sk-empty-state-title {
+    color: var(--sk-navy);
+    font-size: 1.2rem;
+    font-weight: 750;
+}
+
+.sk-empty-state-message {
+    color: var(--bs-secondary-color);
+    line-height: 1.7;
+    max-width: 460px;
+    margin-inline: auto;
+}
+
+.sk-confirm-modal {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.sk-confirm-modal .modal-header,
+.sk-confirm-modal .modal-footer {
+    padding: 1.25rem 1.5rem;
+}
+
+.sk-confirm-modal .modal-body {
+    padding: 0.5rem 1.5rem 1.5rem;
+    color: var(--bs-secondary-color);
+    line-height: 1.7;
+}
+
+.sk-confirm-modal .modal-title {
+    color: var(--sk-navy);
+    font-weight: 750;
+}
+
+.sk-confirm-modal .modal-footer form {
+    margin: 0;
+}
+
+@media (max-width: 575.98px) {
+    .sk-account-title {
+        font-size: 1.8rem;
+    }
+
+    .sk-confirm-modal .modal-header,
+    .sk-confirm-modal .modal-footer {
+        padding: 1rem;
+    }
+
+    .sk-confirm-modal .modal-body {
+        padding: 0.5rem 1rem 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sk-account-heading *,
+    .sk-empty-state,
+    .sk-confirm-modal {
+        scroll-behavior: auto;
+        animation: none;
+        transition: none;
+    }
+}
+
+/* =========================================================
+   SUPERKIDS STORYBOOK — RESPONSIVE PARENT DASHBOARD
+   Uses existing Superkids root variables and Bootstrap 5
+========================================================= */
+
+/* Dashboard page */
+.sk-account:has(.sk-dashboard-action) {
+    background: var(--sk-cream);
+    min-height: 75vh;
+    padding-block: clamp(2rem, 4vw, 3.5rem) !important;
+}
+
+.sk-account:has(.sk-dashboard-action) .sk-account-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+/* Welcome heading */
+.sk-account:has(.sk-dashboard-action) .sk-account-heading {
+    max-width: 780px;
+    margin-bottom: 1.75rem;
+}
+
+.sk-account:has(.sk-dashboard-action) .sk-account-eyebrow {
+    color: var(--sk-blue);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.sk-account:has(.sk-dashboard-action) .sk-account-title {
+    color: var(--sk-navy);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+}
+
+.sk-account:has(.sk-dashboard-action) .sk-account-subtitle {
+    max-width: 620px;
+    color: #62656d;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+/* Three dashboard shortcut cards */
+.sk-dashboard-action.card {
+    display: block;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    color: var(--sk-navy);
+    background: #fff;
+    border: 1px solid #dedbd5;
+    border-radius: 9px;
+    box-shadow: none;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                transform 0.2s ease;
+}
+
+.sk-dashboard-action.card .card-body {
+    padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.sk-dashboard-action .sk-dashboard-action-icon {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    margin-bottom: 1rem !important;
+    color: var(--sk-navy);
+    font-size: 1rem;
+}
+
+.sk-dashboard-action h2 {
+    color: var(--sk-navy);
+    font-size: 0.98rem;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
+.sk-dashboard-action p {
+    margin-bottom: 0;
+    color: #656873;
+    font-size: 0.81rem;
+    line-height: 1.7;
+}
+
+.sk-dashboard-action.card:hover {
+    border-color: var(--sk-blue);
+    box-shadow: 0 8px 22px rgba(24, 52, 91, 0.07);
+    transform: translateY(-3px);
+}
+
+.sk-dashboard-action.card:focus-visible {
+    outline: 3px solid var(--sk-blue);
+    outline-offset: 3px;
+}
+
+/* Section headings and buttons */
+.sk-account:has(.sk-dashboard-action) .sk-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sk-account:has(.sk-dashboard-action) h2.h4 {
+    color: var(--sk-navy);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.sk-account:has(.sk-dashboard-action) .btn {
+    border-radius: 7px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: normal;
+}
+
+.sk-account:has(.sk-dashboard-action) .btn-primary {
+    color: #fff;
+    background: var(--sk-navy);
+    border-color: var(--sk-navy);
+}
+
+.sk-account:has(.sk-dashboard-action) .btn-primary:hover {
+    filter: brightness(1.15);
+}
+
+.sk-account:has(.sk-dashboard-action) .btn-outline-primary {
+    color: var(--sk-navy);
+    border-color: var(--sk-blue);
+}
+
+.sk-account:has(.sk-dashboard-action) .btn-outline-primary:hover {
+    color: #fff;
+    background: var(--sk-navy);
+    border-color: var(--sk-navy);
+}
+
+/* Child profile cards */
+.sk-dashboard-child.card {
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e1ded8;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.sk-dashboard-child .card-body {
+    padding: clamp(1rem, 2vw, 1.4rem);
+}
+
+.sk-dashboard-avatar {
+    display: flex;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    color: var(--sk-navy);
+    background: var(--sk-cream);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.sk-dashboard-child h3 {
+    overflow-wrap: anywhere;
+    color: var(--sk-navy);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.sk-dashboard-child p {
+    overflow-wrap: anywhere;
+}
+
+/* Empty states */
+.sk-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 210px;
+    padding: clamp(1.5rem, 4vw, 2.5rem) 1rem;
+    text-align: center;
+    background: #f7f8fa;
+    border: 1px dashed #dce5f1;
+    border-radius: 14px;
+}
+
+.sk-empty-state-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-inline: auto;
+    border-radius: 13px;
+    color: var(--sk-navy);
+    background: var(--sk-cream);
+    font-size: 1.15rem;
+}
+
+.sk-empty-state-title {
+    color: var(--sk-navy);
+    font-size: 0.94rem;
+    font-weight: 800;
+}
+
+.sk-empty-state-message {
+    max-width: 380px;
+    margin-inline: auto;
+    color: #656873;
+    font-size: 0.81rem;
+    line-height: 1.75;
+}
+
+/* Reading activity */
+.sk-reading-activity.card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e1ded8;
+    border-radius: 12px;
+}
+
+.sk-reading-activity .list-group-item {
+    min-width: 0;
+    padding: 1.15rem 1.25rem;
+    background: transparent;
+    border-color: #eeeae4;
+}
+
+.sk-reading-activity h3 {
+    color: var(--sk-navy);
+    overflow-wrap: anywhere;
+}
+
+.sk-reading-activity .badge {
+    font-size: 0.72rem;
+}
+
+/* Tablet */
+@media (max-width: 991.98px) {
+    .sk-account:has(.sk-dashboard-action) .sk-account-container {
+        max-width: 900px;
+    }
+
+    .sk-dashboard-action.card .card-body {
+        padding: 1.1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 575.98px) {
+    .sk-account:has(.sk-dashboard-action) {
+        padding-block: 1.75rem !important;
+    }
+
+    .sk-account:has(.sk-dashboard-action) .sk-account-container {
+        padding-inline: 1rem;
+    }
+
+    .sk-account:has(.sk-dashboard-action) .sk-account-title {
+        font-size: 1.85rem;
+    }
+
+    .sk-account:has(.sk-dashboard-action) .sk-section-heading {
+        align-items: flex-start;
+    }
+
+    .sk-account:has(.sk-dashboard-action) .sk-section-heading > a {
+        flex-shrink: 0;
+    }
+
+    .sk-dashboard-action.card .card-body {
+        padding: 1.1rem;
+    }
+
+    .sk-empty-state {
+        min-height: 175px;
+    }
+
+    .sk-reading-activity .list-group-item {
+        padding: 1rem;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .sk-dashboard-action.card {
+        transition: none;
+    }
+
+    .sk-dashboard-action.card:hover {
+        transform: none;
+    }
+}
+
+/* =========================================================
+   SUPERKIDS NAVBAR — RESPONSIVE ACCOUNT MENU
+========================================================= */
+
+.sk-navbar {
+    position: relative;
+    z-index: 1030;
+    padding: 0.85rem 0;
+    background: var(--bs-body-bg);
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.sk-navbar .container {
+    gap: 1rem;
+}
+
+.sk-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-right: 1rem;
+}
+
+.sk-brand-mark {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1.25rem;
+}
+
+.sk-brand-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.sk-brand-name {
+    color: var(--sk-navy);
+    font-size: 1.15rem;
+    font-weight: 850;
+}
+
+.sk-brand-tagline {
+    margin-top: 0.25rem;
+    color: var(--sk-blue);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+}
+
+.sk-navbar .navbar-nav {
+    gap: 0.15rem;
+}
+
+.sk-navbar .nav-link {
+    padding: 0.65rem 0.7rem;
+    color: var(--bs-body-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 7px;
+}
+
+.sk-navbar .nav-link:hover,
+.sk-navbar .nav-link:focus-visible {
+    color: var(--sk-blue);
+    background: var(--bs-tertiary-bg);
+}
+
+.sk-navbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.85rem;
+}
+
+.sk-navbar .sk-login-link {
+    color: var(--sk-navy);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sk-navbar .sk-login-link:hover {
+    color: var(--sk-blue);
+}
+
+.sk-navbar .sk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+.sk-navbar .sk-btn-primary {
+    color: #fff;
+    background: var(--sk-navy);
+    border: 1px solid var(--sk-navy);
+}
+
+.sk-navbar .sk-btn-primary:hover {
+    color: #fff;
+    filter: brightness(1.15);
+}
+
+/* Account dropdown trigger */
+.sk-account-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 200px;
+    padding: 0.2rem 0.45rem 0.2rem 0.2rem;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    background: transparent;
+    color: var(--bs-body-color);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.sk-account-toggle:hover,
+.sk-account-toggle:focus-visible,
+.sk-account-toggle.show {
+    background: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+}
+
+.sk-navbar-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 0.8rem;
+    font-weight: 850;
+    letter-spacing: 0.02em;
+}
+
+.sk-navbar-user-name {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Dropdown menu */
+.sk-account-menu {
+    width: 255px;
+    max-width: calc(100vw - 2rem);
+    margin-top: 0.65rem !important;
+    padding: 0.45rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 12px;
+    background: var(--bs-body-bg);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.sk-account-menu .dropdown-item {
+    padding: 0.65rem 0.75rem;
+    border-radius: 7px;
+    color: var(--bs-body-color);
+    font-size: 0.84rem;
+}
+
+.sk-account-menu .dropdown-item:hover,
+.sk-account-menu .dropdown-item:focus-visible {
+    color: var(--sk-navy);
+    background: var(--bs-tertiary-bg);
+}
+
+.sk-account-menu .dropdown-divider {
+    border-color: var(--bs-border-color);
+}
+
+.sk-account-menu .sk-logout-item {
+    width: 100%;
+    text-align: left;
+    color: var(--bs-danger);
+    background: transparent;
+    border: 0;
+}
+
+.sk-account-menu .sk-logout-item:hover {
+    color: var(--bs-danger);
+    background: var(--bs-tertiary-bg);
+}
+
+/* Bootstrap mobile navigation */
+@media (max-width: 991.98px) {
+    .sk-navbar .navbar-collapse {
+        padding-top: 1rem;
+    }
+
+    .sk-navbar .navbar-nav {
+        gap: 0.15rem;
+    }
+
+    .sk-navbar .nav-link {
+        padding: 0.7rem 0.8rem;
+    }
+
+    .sk-navbar-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-bottom: 0.5rem;
+    }
+
+    .sk-account-menu {
+        margin-top: 0.4rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .sk-navbar {
+        padding: 0.65rem 0;
+    }
+
+    .sk-brand-mark {
+        flex-basis: 38px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .sk-brand-name {
+        font-size: 1.05rem;
+    }
+
+    .sk-navbar .container {
+        gap: 0.5rem;
+    }
+
+    .sk-navbar-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+
+    .sk-navbar-actions > .dropdown {
+        width: 100%;
+    }
+
+    .sk-account-toggle {
+        max-width: 100%;
+    }
+
+    .sk-account-menu {
+        width: 100%;
+    }
+}
+
+/* Parent profile settings */
+
+.sk-profile-sidebar,
+.sk-profile-sidebar.card {
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 12px;
+}
+
+.sk-profile-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.sk-profile-nav {
+    gap: 0.35rem;
+}
+
+.sk-profile-nav .nav-link {
+    padding: 0.75rem 0.85rem;
+    border-radius: 8px;
+    color: var(--bs-body-color);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.sk-profile-nav .nav-link:hover {
+    background: var(--bs-tertiary-bg);
+    color: var(--sk-navy);
+}
+
+.sk-profile-nav .nav-link.active {
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+}
+
+@media (max-width: 991.98px) {
+    .sk-profile-sidebar .card-body {
+        padding: 1.25rem !important;
+    }
+
+    .sk-profile-nav {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+    }
+
+    .sk-profile-nav .nav-link {
+        flex: 1 1 auto;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .sk-profile-nav {
+        flex-direction: column !important;
+    }
+
+    .sk-profile-nav .nav-link {
+        width: 100%;
+    }
+}
+/* Profile image and initials avatar */
+
+.sk-profile-avatar,
+.sk-navbar-avatar,
+.sk-dashboard-avatar {
+    overflow: hidden;
+}
+
+.sk-profile-avatar img,
+.sk-navbar-avatar img,
+.sk-dashboard-avatar img,
+.sk-avatar-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.sk-profile-avatar {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+}
+
+/* Child profile cards */
+
+.sk-child-card {
+    height: 100%;
+    background: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sk-child-card:hover {
+    border-color: var(--sk-blue);
+    box-shadow: 0 6px 20px rgba(24, 52, 91, 0.07);
+}
+
+.sk-child-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.sk-child-avatar .sk-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+@media (max-width: 575.98px) {
+    .sk-child-card .card-body {
+        padding: 1.1rem !important;
+    }
+}
+
+/* Child profile form */
+
+.sk-child-form-avatar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 12px;
+    background: var(--bs-tertiary-bg);
+}
+
+.sk-child-form-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 1.5rem;
+}
+
+.sk-child-form-avatar .sk-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.sk-form-section + .sk-form-section {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+.sk-form-section > h2 {
+    color: var(--sk-navy);
+}
+
+@media (max-width: 575.98px) {
+    .sk-child-form-avatar-wrap {
+        align-items: flex-start;
+        padding: 0.85rem;
+    }
+
+    .sk-child-form-avatar {
+        flex-basis: 52px;
+        width: 52px;
+        height: 52px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Child detail page */
+
+.sk-child-detail-avatar {
+    display: grid;
+    place-items: center;
+    width: 112px;
+    height: 112px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--sk-cream);
+    color: var(--sk-navy);
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.sk-child-detail-avatar .sk-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.sk-child-detail-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.sk-child-detail-list > div {
+    display: grid;
+    grid-template-columns: minmax(100px, 0.8fr) minmax(0, 1.2fr);
+    gap: 1rem;
+}
+
+.sk-child-detail-list dt {
+    color: var(--bs-secondary-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.sk-child-detail-list dd {
+    margin: 0;
+    color: var(--bs-body-color);
+    font-size: 0.875rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 575.98px) {
+    .sk-child-detail-avatar {
+        width: 92px;
+        height: 92px;
+        font-size: 2rem;
+    }
+
+    .sk-child-detail-list > div {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+}
+
+/* ========================================
+   SUPERKIDS STORYBOOK — READER CHILD SELECTOR
+======================================== */
+
+.sk-reader-child-selection {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+}
+
+.sk-reader-child-selection .card {
+    background-color: var(--bs-body-bg, #ffffff);
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.sk-reader-child-selection .card-body {
+    padding: 1.5rem;
+}
+
+.sk-reader-child-selection h2 {
+    color: var(--bs-heading-color, #17365d);
+    letter-spacing: -0.02em;
+}
+
+.sk-reader-child-selection p {
+    line-height: 1.6;
+}
+
+.sk-reader-child-selection .form-select {
+    min-height: 46px;
+    border-radius: 0.65rem;
+}
+
+.sk-reader-child-selection .btn {
+    min-height: 46px;
+    border-radius: 0.65rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.sk-reader-child-selection .btn:hover {
+    transform: translateY(-1px);
+}
+
+.sk-reader-child-selection .form-select:focus {
+    border-color: #4d8bd8;
+    box-shadow: 0 0 0 0.2rem rgba(77, 139, 216, 0.18);
+}
+
+@media (max-width: 575.98px) {
+    .sk-reader-child-selection .card-body {
+        padding: 1rem;
+    }
+
+    .sk-reader-child-selection .btn {
+        width: 100%;
+    }
+}
+
+/* Hide the reader until a child is selected */
+.sk-reading-room {
+    max-width: 100%;
+}
+
+/* Keep the selection card visually separate from the reader */
+.sk-reader-child-selection {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+}
+
+.sk-reader-child-selection .card {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.sk-reader-child-selection .form-select,
+.sk-reader-child-selection .btn {
+    min-height: 46px;
+    border-radius: 0.65rem;
+}
+
+@media (max-width: 575.98px) {
+    .sk-reader-child-selection .card-body {
+        padding: 1rem;
+    }
+}

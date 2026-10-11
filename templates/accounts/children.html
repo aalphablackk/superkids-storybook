@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+
+{% block title %}Children's Profiles | Superkids Storybook{% endblock %}
+
+{% block content %}
+<section class="sk-account py-5">
+    <div class="container sk-account-container">
+
+        {% include "accounts/includes/account_page_header.html" with eyebrow="FAMILY PROFILES" title="Your children" subtitle="Manage your children's profiles and keep their reading journeys organised." %}
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+            <p class="text-body-secondary mb-0">
+                {% if children %}
+                    {{ children|length }} profile{{ children|length|pluralize }}
+                {% else %}
+                    Your family profiles will appear here.
+                {% endif %}
+            </p>
+
+            <a href="{% url 'accounts:child_create' %}" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+                Add Child
+            </a>
+        </div>
+
+        {% if children %}
+            <div class="row g-3">
+                {% for child in children %}
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <article class="sk-child-card card h-100">
+                            <div class="card-body p-4">
+
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="sk-child-avatar" aria-hidden="true">
+                                        {% if child.profile_image %}
+                                            <img
+                                                src="{{ child.profile_image.url }}"
+                                                alt=""
+                                                class="sk-avatar-image"
+                                            >
+                                        {% else %}
+                                            {{ child.first_name|first|upper }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="min-w-0">
+                                        <h2 class="h5 fw-bold mb-1 text-break">
+                                            {{ child.first_name }} {{ child.last_name }}
+                                        </h2>
+
+                                        <p class="small text-body-secondary mb-0">
+                                            {% if child.age != None %}
+                                                {{ child.age }} years old
+                                            {% else %}
+                                                Age unavailable
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {% if child.school %}
+                                    <p class="small mb-1">
+                                        <i class="bi bi-mortarboard me-1" aria-hidden="true"></i>
+                                        {{ child.school }}
+                                    </p>
+                                {% endif %}
+
+                                {% if child.class_level %}
+                                    <p class="small text-body-secondary mb-3">
+                                        {{ child.class_level }}
+                                    </p>
+                                {% endif %}
+
+                                <div class="d-flex gap-2 mt-4">
+                                    <a href="{% url 'accounts:child_detail' child.pk %}"
+                                       class="btn btn-primary flex-grow-1">
+                                        View Profile
+                                    </a>
+
+                                    <a href="{% url 'accounts:child_edit' child.pk %}"
+                                       class="btn btn-outline-secondary"
+                                       aria-label="Edit {{ child.first_name }}'s profile">
+                                        <i class="bi bi-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% include "accounts/includes/empty_state.html" with icon="bi-people" title="Add your first child" message="Create a profile to organise your child's reading activity and progress." action_url=child_create_url action_label="Add a Child" %}
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

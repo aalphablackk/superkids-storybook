@@ -1,0 +1,24 @@
+
+<div class="sk-empty-state text-center">
+    {% if icon %}
+        <div class="sk-empty-state-icon mx-auto mb-3" aria-hidden="true">
+            <i class="bi {{ icon }}"></i>
+        </div>
+    {% endif %}
+
+    <h3 class="sk-empty-state-title mb-2">
+        {{ title }}
+    </h3>
+
+    {% if message %}
+        <p class="sk-empty-state-message mb-4">
+            {{ message }}
+        </p>
+    {% endif %}
+
+    {% if action_url and action_label %}
+        <a href="{{ action_url }}" class="btn btn-primary">
+            {{ action_label }}
+        </a>
+    {% endif %}
+</div>

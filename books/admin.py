@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Author, Book, Category
+from .models import Author, Book, Category, ReadingProgress
 # Register your models here.
 
 
@@ -87,3 +87,19 @@ class BookAdmin(admin.ModelAdmin):
             },
         ),
     )
+@admin.register(ReadingProgress)
+class ReadingProgressAdmin(admin.ModelAdmin):
+    list_display = (
+        "child",
+        "book",
+        "current_page",
+        "is_completed",
+        "last_read_at",
+    )
+    list_filter = ("is_completed", "last_read_at")
+    search_fields = (
+        "child__first_name",
+        "child__last_name",
+        "book__title",
+    )
+    readonly_fields = ("created_at", "last_read_at")

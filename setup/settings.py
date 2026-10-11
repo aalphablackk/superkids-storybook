@@ -49,17 +49,11 @@ ALLOWED_HOSTS = [
 # CLOUDINARY
 # ============================================================
 
-CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME", default="")
-CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY", default="")
-CLOUDINARY_API_SECRET = config("CLOUDINARY_API_SECRET", default="")
-
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
-    cloudinary.config(
-        cloud_name=CLOUDINARY_CLOUD_NAME,
-        api_key=CLOUDINARY_API_KEY,
-        api_secret=CLOUDINARY_API_SECRET,
-        secure=True,
-    )
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": config("CLOUDINARY_API_KEY"),
+    "API_SECRET": config("CLOUDINARY_API_SECRET"),
+}
 
 
 
@@ -139,7 +133,6 @@ else:
     }
 
 
-AUTH_USER_MODEL = "accounts.User"
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -221,6 +214,15 @@ DEFAULT_FROM_EMAIL = config(
     default=EMAIL_HOST_USER or "noreply@superkids.example",
 )
 
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "accounts:dashboard"
+LOGOUT_REDIRECT_URL = "books:home"
+
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailOrUsernameBackend",
+]
+
 # ============================================================
 # PRODUCTION SECURITY
 # ============================================================
@@ -233,6 +235,7 @@ if not DEBUG:
     X_FRAME_OPTIONS = "DENY"
 
 
+AUTH_USER_MODEL = "accounts.User"
 # ============================================================
 # SUPERKIDS MEMBERSHIP ELIGIBILITY
 # ============================================================

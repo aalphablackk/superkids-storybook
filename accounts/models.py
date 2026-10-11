@@ -60,6 +60,11 @@ class ParentProfile(models.Model):
         on_delete=models.CASCADE,
         related_name="parent_profile",
     )
+    profile_image = models.ImageField(
+        upload_to="profiles/parents/",
+        blank=True,
+        null=True,
+    )
 
     phone = models.CharField(max_length=20, blank=True)
     whatsapp_number = models.CharField(max_length=20, blank=True)
@@ -87,6 +92,11 @@ class ChildProfile(models.Model):
         on_delete=models.CASCADE,
         related_name="children",
     )
+    profile_image = models.ImageField(
+        upload_to="profiles/children/",
+        blank=True,
+        null=True,
+    )
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, blank=True)
@@ -112,29 +122,26 @@ class ChildProfile(models.Model):
     def is_eligible_for_club(self):
         return is_eligible_for_club(self.date_of_birth)
 
+    
     def clean(self):
         super().clean()
 
-        if not self.date_of_birth:
-            return
+        if self.date_of_birth:
+            today = timezone.localdate()
 
-        if self.date_of_birth > timezone.localdate():
-            raise ValidationError({
-                "date_of_birth": "Date of birth cannot be in the future."
-            })
+            if self.date_of_birth > today:
+                raise ValidationError({
+                    "date_of_birth": "Date of birth cannot be in the future."
+                })
 
-        age = get_child_age(self.date_of_birth)
+            if get_child_age(self.date_of_birth, today) < settings.SUPERKIDS_MIN_AGE:
+                raise ValidationError({
+                    "date_of_birth": (
+                        f"Children must be at least "
+                        f"{settings.SUPERKIDS_MIN_AGE} years old to register."
+                    )
+                })
 
-        minimum = settings.SUPERKIDS_MIN_AGE
-        maximum = settings.SUPERKIDS_MAX_AGE
-
-        if not minimum <= age <= maximum:
-            raise ValidationError({
-                "date_of_birth": (
-                    f"Children must be between {minimum} and "
-                    f"{maximum} years old to join the Storybook Club."
-                )
-            })
 
     class Meta:
         ordering = ["first_name", "last_name"]
@@ -153,6 +160,11 @@ class CampaignerProfile(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="campaigner_profile",
+    )
+    profile_image = models.ImageField(
+        upload_to="profiles/campaigners/",
+        blank=True,
+        null=True,
     )
 
     occupation = models.CharField(max_length=150, blank=True)

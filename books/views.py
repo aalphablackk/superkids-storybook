@@ -2,7 +2,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import Book, Category
+from accounts.models import ChildProfile
+from .models import Book, Category, ReadingProgress
+
 
 # Create your views here.
 
@@ -70,7 +72,7 @@ def library(request):
 
 
 def book_detail(request, slug):
-    """Display an individual storybook and its online reading content."""
+    """Display a storybook and its online reading content."""
     book = get_object_or_404(
         Book.objects.select_related("author", "category"),
         slug=slug,
@@ -78,8 +80,31 @@ def book_detail(request, slug):
         category__is_active=True,
     )
 
-    return render(
-        request,
-        "pages/book_detail.html",
-        {"book": book},
-    )
+    children = ChildProfile.objects.none()
+    selected_child = None
+    reading_progress = None
+
+    if request.user.is_authenticated:
+        children = ChildProfile.objects.filter(
+            parent=request.user
+        ).order_by("first_name", "last_name")
+
+        child_id = request.GET.get("child")
+
+        if child_id:
+            selected_child = children.filter(pk=child_id).first()
+
+            if selected_child:
+                reading_progress = ReadingProgress.objects.filter(
+                    child=selected_child,
+                    book=book,
+                ).first()
+
+    context = {
+        "book": book,
+        "children": children,
+        "selected_child": selected_child,
+        "reading_progress": reading_progress,
+    }
+
+    return render(request, "pages/book_detail.html", context)

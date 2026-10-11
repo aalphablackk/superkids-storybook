@@ -1,0 +1,51 @@
+
+<div
+    class="modal fade"
+    id="{{ modal_id }}"
+    tabindex="-1"
+    aria-labelledby="{{ modal_id }}-title"
+    aria-describedby="{{ modal_id }}-description"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content sk-confirm-modal">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="{{ modal_id }}-title">
+                    {{ title }}
+                </h2>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+
+            <div class="modal-body">
+                <p id="{{ modal_id }}-description" class="mb-0">
+                    {{ message }}
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    {{ cancel_label|default:"Cancel" }}
+                </button>
+
+                {% if confirm_url %}
+                    <form method="post" action="{{ confirm_url }}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            {{ confirm_label|default:"Confirm" }}
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
