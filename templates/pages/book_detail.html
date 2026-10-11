@@ -1,0 +1,503 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ book.title }} | Superkids Storybook{% endblock %}
+
+{% block meta_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<section class="sk-book-page">
+    <div class="container">
+
+        <nav class="sk-book-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'books:library' %}">Free Storybook Library</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ book.title }}</span>
+        </nav>
+
+        <!-- Book information -->
+        <div class="sk-book-intro">
+            <div class="sk-book-cover-wrap">
+                {% if book.poster_source %}
+                    <img
+                        src="{{ book.poster_source }}"
+                        alt="Cover of {{ book.title }}"
+                        class="sk-book-cover"
+                    >
+                {% else %}
+                    <div class="sk-book-cover-placeholder">
+                        <span>Book cover unavailable</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="sk-book-info">
+                <div class="sk-book-badges">
+                    <span class="sk-book-badge">
+                        {{ book.category.name }}
+                    </span>
+
+                    {% if book.is_featured %}
+                        <span class="sk-book-badge sk-book-badge-featured">
+                            Featured
+                        </span>
+                    {% endif %}
+                </div>
+
+                <p class="sk-book-kicker">A Superkids story</p>
+
+                <h1>{{ book.title }}</h1>
+
+                <p class="sk-book-author">
+                    Written by {{ book.author.name }}
+                </p>
+
+                <p class="sk-book-description">{{ book.description }}</p>
+
+                <div class="sk-book-facts">
+                    {% if book.age_min != None and book.age_max != None %}
+                        <div class="sk-book-fact">
+                            <span>Recommended age</span>
+                            <strong>{{ book.age_min }}–{{ book.age_max }} years</strong>
+                        </div>
+                    {% endif %}
+
+                    {% if book.pages %}
+                        <div class="sk-book-fact">
+                            <span>Published pages</span>
+                            <strong>{{ book.pages }}</strong>
+                        </div>
+                    {% endif %}
+
+                    {% if book.publisher %}
+                        <div class="sk-book-fact">
+                            <span>Publisher</span>
+                            <strong>{{ book.publisher }}</strong>
+                        </div>
+                    {% endif %}
+
+                    {% if book.language %}
+                        <div class="sk-book-fact">
+                            <span>Language</span>
+                            <strong>{{ book.language }}</strong>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <a href="{% url 'books:library' %}"
+                   class="sk-book-library-link">
+                    <span aria-hidden="true">←</span>
+                    Back to the library
+                </a>
+            </div>
+        </div>
+
+        <!-- Reading room -->
+        <section class="sk-reading-room" aria-labelledby="reading-heading">
+            <div class="sk-reading-heading">
+                <span class="sk-reading-eyebrow">Your reading corner</span>
+                <h2 id="reading-heading">Settle in for a story</h2>
+                <p>Turn the pages, take your time, and let your imagination wander.</p>
+            </div>
+
+            {% if book.story_content %}
+                <!-- Hidden source used to prepare reader pages -->
+                <div id="sk-story-source" hidden>
+                    {{ book.story_content|linebreaks }}
+                </div>
+
+                
+<div class="sk-reader-toolbar">
+    <a href="{% url 'books:library' %}"
+       class="sk-reader-exit">
+        <span aria-hidden="true">←</span>
+        <span>Library</span>
+    </a>
+
+    <div class="sk-reader-tools" aria-label="Reading settings">
+        <span class="sk-reader-tools-label">Text size</span>
+
+        <button type="button"
+                class="sk-reader-tool-button"
+                data-size-change="-2"
+                aria-label="Decrease text size">A−</button>
+
+        <button type="button"
+                class="sk-reader-tool-button"
+                data-size-change="2"
+                aria-label="Increase text size">A+</button>
+
+        <button type="button"
+                class="sk-reader-reset"
+                id="sk-reader-reset">Reset</button>
+
+        <button type="button"
+                class="sk-reader-fullscreen"
+                id="sk-reader-fullscreen"
+                aria-pressed="false">
+            <span aria-hidden="true">⛶</span>
+            <span id="sk-reader-fullscreen-label">Full screen</span>
+        </button>
+    </div>
+</div>
+
+
+                <div class="sk-reader-progress-area">
+                    <div class="sk-reader-progress-copy">
+                        <span id="sk-reader-progress-label">Preparing your book…</span>
+                        <span id="sk-reader-progress-percent">0%</span>
+                    </div>
+
+                    <div class="sk-reader-progress-track"
+                         id="sk-reader-progress-track"
+                         role="progressbar"
+                         aria-label="Reading progress"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-valuenow="0">
+                        <div class="sk-reader-progress-fill"
+                             id="sk-reader-progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="sk-book-stage">
+                    <div class="sk-book-shadow" aria-hidden="true"></div>
+
+                    <article class="sk-reader-page"
+                             id="sk-reader-page"
+                             aria-label="Current story page"
+                             aria-live="polite"
+                             aria-atomic="true">
+                        <div class="sk-reader-page-top">
+                            <span class="sk-reader-page-brand">SUPERKIDS STORYBOOK</span>
+                            <span class="sk-reader-page-category">{{ book.category.name }}</span>
+                        </div>
+
+                        <div class="sk-reader-page-body" id="sk-reader-page-body">
+                            <p>Preparing your story…</p>
+                        </div>
+
+                        <div class="sk-reader-page-bottom">
+                            <span class="sk-reader-page-title">{{ book.title }}</span>
+                            <span class="sk-reader-page-number"
+                                  id="sk-reader-page-number">1</span>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="sk-reader-navigation">
+                    <button type="button"
+                            class="sk-reader-nav-button sk-reader-prev"
+                            id="sk-reader-prev"
+                            disabled>
+                        <span aria-hidden="true">←</span>
+                        Previous
+                    </button>
+
+                    <div class="sk-reader-page-count" aria-live="polite">
+                        <span id="sk-reader-current-page">1</span>
+                        <span class="sk-reader-page-divider">of</span>
+                        <span id="sk-reader-total-pages">1</span>
+                        <span class="sk-reader-page-word">pages</span>
+                    </div>
+
+                    <button type="button"
+                            class="sk-reader-nav-button sk-reader-next"
+                            id="sk-reader-next">
+                        Next
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </div>
+
+                <p class="sk-reader-encouragement" id="sk-reader-encouragement">
+                    Every page is a new little adventure.
+                </p>
+
+                <noscript>
+                    <p class="sk-reader-noscript">
+                        JavaScript is needed for page-by-page reading. Please enable it
+                        to use the interactive reader.
+                    </p>
+                </noscript>
+
+                <script>
+                (function () {
+                    "use strict";
+
+                    const source = document.getElementById("sk-story-source");
+                    const pageBody = document.getElementById("sk-reader-page-body");
+                    const pageNumber = document.getElementById("sk-reader-page-number");
+                    const currentPageLabel = document.getElementById("sk-reader-current-page");
+                    const totalPagesLabel = document.getElementById("sk-reader-total-pages");
+                    const progressLabel = document.getElementById("sk-reader-progress-label");
+                    const progressPercent = document.getElementById("sk-reader-progress-percent");
+                    const progressTrack = document.getElementById("sk-reader-progress-track");
+                    const progressFill = document.getElementById("sk-reader-progress-fill");
+                    const previousButton = document.getElementById("sk-reader-prev");
+                    const nextButton = document.getElementById("sk-reader-next");
+                    const resetButton = document.getElementById("sk-reader-reset");
+                    const page = document.getElementById("sk-reader-page");
+                    const encouragement = document.getElementById("sk-reader-encouragement");
+                    const readingRoom = document.querySelector(".sk-reading-room");
+                    const fullscreenButton = document.getElementById("sk-reader-fullscreen");
+                    const fullscreenLabel = document.getElementById("sk-reader-fullscreen-label");
+
+                    if (!source || !pageBody || !previousButton || !nextButton) {
+                        return;
+                    }
+
+                    const wordsPerPage = 105;
+                    const defaultFontSize = 20;
+                    const minimumFontSize = 16;
+                    const maximumFontSize = 28;
+
+                    let pages = [];
+                    let currentPage = 0;
+                    let fontSize = defaultFontSize;
+
+                    function splitParagraph(paragraph) {
+                        const words = paragraph.trim().split(/\s+/).filter(Boolean);
+                        const pieces = [];
+
+                        for (let index = 0; index < words.length; index += wordsPerPage) {
+                            pieces.push(words.slice(index, index + wordsPerPage).join(" "));
+                        }
+
+                        return pieces;
+                    }
+
+                    function preparePages() {
+                        const paragraphs = Array.from(source.querySelectorAll("p"))
+                            .map(function (paragraph) {
+                                return paragraph.textContent.trim();
+                            })
+                            .filter(Boolean);
+
+                        let currentPageParagraphs = [];
+                        let currentWordCount = 0;
+
+                        paragraphs.forEach(function (paragraph) {
+                            const words = paragraph.split(/\s+/).filter(Boolean);
+
+                            if (words.length > wordsPerPage) {
+                                if (currentPageParagraphs.length) {
+                                    pages.push(currentPageParagraphs);
+                                    currentPageParagraphs = [];
+                                    currentWordCount = 0;
+                                }
+
+                                splitParagraph(paragraph).forEach(function (piece) {
+                                    pages.push([piece]);
+                                });
+
+                                return;
+                            }
+
+                            if (
+                                currentWordCount + words.length > wordsPerPage &&
+                                currentPageParagraphs.length
+                            ) {
+                                pages.push(currentPageParagraphs);
+                                currentPageParagraphs = [];
+                                currentWordCount = 0;
+                            }
+
+                            currentPageParagraphs.push(paragraph);
+                            currentWordCount += words.length;
+                        });
+
+                        if (currentPageParagraphs.length) {
+                            pages.push(currentPageParagraphs);
+                        }
+
+                        if (!pages.length) {
+                            pages = [["This story is not available yet."]];
+                        }
+                    }
+
+                    function renderPage() {
+                        pageBody.replaceChildren();
+
+                        pages[currentPage].forEach(function (text) {
+                            const paragraph = document.createElement("p");
+                            paragraph.textContent = text;
+                            pageBody.appendChild(paragraph);
+                        });
+
+                        pageNumber.textContent = currentPage + 1;
+                        currentPageLabel.textContent = currentPage + 1;
+                        totalPagesLabel.textContent = pages.length;
+
+                        previousButton.disabled = currentPage === 0;
+                        nextButton.disabled = currentPage === pages.length - 1;
+
+                        const progress = Math.round(((currentPage + 1) / pages.length) * 100);
+
+                        progressFill.style.width = progress + "%";
+                        progressTrack.setAttribute("aria-valuenow", progress);
+                        progressLabel.textContent = progress === 100
+                            ? "You've reached the end!"
+                            : "Your reading journey";
+                        progressPercent.textContent = progress + "%";
+
+                        encouragement.textContent = progress === 100
+                            ? "Wonderful reading! Every story leaves us with something to remember."
+                            : currentPage === 0
+                                ? "Once upon a time… your adventure begins here."
+                                : "Keep going. There's more magic just ahead.";
+
+                        page.style.animation = "none";
+                        void page.offsetWidth;
+                        page.style.animation = "skReaderPageIn 260ms ease both";
+                    }
+
+                    function changePage(direction) {
+                        const nextPage = currentPage + direction;
+
+                        if (nextPage < 0 || nextPage >= pages.length) {
+                            return;
+                        }
+
+                        currentPage = nextPage;
+                        renderPage();
+
+                        const stage = document.querySelector(".sk-book-stage");
+                        if (stage) {
+                            scrollToReaderTop({
+                                behavior: "smooth",
+                                block: "nearest"
+                            });
+                        }
+                    }
+
+                    function setFontSize(value) {
+                        fontSize = Math.max(
+                            minimumFontSize,
+                            Math.min(maximumFontSize, value)
+                        );
+
+                        pageBody.style.fontSize = fontSize + "px";
+                    }
+
+                    previousButton.addEventListener("click", function () {
+                        changePage(-1);
+                    });
+
+                    nextButton.addEventListener("click", function () {
+                        changePage(1);
+                    });
+
+                    document.querySelectorAll("[data-size-change]").forEach(function (button) {
+                        button.addEventListener("click", function () {
+                            setFontSize(fontSize + Number(button.dataset.sizeChange));
+                        });
+                    });
+
+                    resetButton.addEventListener("click", function () {
+                        setFontSize(defaultFontSize);
+                    });
+
+                    document.addEventListener("keydown", function (event) {
+                        const tagName = event.target.tagName;
+
+                        if (
+                            event.altKey ||
+                            event.ctrlKey ||
+                            event.metaKey ||
+                            ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(tagName)
+                        ) {
+                            return;
+                        }
+
+                        if (event.key === "ArrowLeft") {
+                            changePage(-1);
+                        } else if (event.key === "ArrowRight") {
+                            changePage(1);
+                        }
+                    });
+                                        
+                    function scrollToReaderTop() {
+                        const target = readingRoom || page;
+
+                        if (document.fullscreenElement === target) {
+                            target.scrollTo({
+                                top: 0,
+                                behavior: "smooth"
+                            });
+                            return;
+                        }
+
+                        if (target.classList.contains("sk-reader-fullscreen-fallback")) {
+                            target.scrollTo({
+                                top: 0,
+                                behavior: "smooth"
+                            });
+                            return;
+                        }
+
+                        const top = target.getBoundingClientRect().top + window.scrollY - 20;
+
+                        window.scrollTo({
+                            top: Math.max(0, top),
+                            behavior: "smooth"
+                        });
+                    }
+
+                    function updateFullscreenButton() {
+                        const isFullscreen = document.fullscreenElement === readingRoom;
+
+                        if (fullscreenButton) {
+                            fullscreenButton.setAttribute("aria-pressed", String(isFullscreen));
+                        }
+
+                        if (fullscreenLabel) {
+                            fullscreenLabel.textContent = isFullscreen ? "Exit full screen" : "Full screen";
+                        }
+                    }
+
+                    if (fullscreenButton && readingRoom) {
+                        fullscreenButton.addEventListener("click", async function () {
+                            try {
+                                if (document.fullscreenElement === readingRoom) {
+                                    await document.exitFullscreen();
+                                } else if (!document.fullscreenElement && readingRoom.requestFullscreen) {
+                                    await readingRoom.requestFullscreen();
+                                } else {
+                                    readingRoom.classList.toggle("sk-reader-fullscreen-fallback");
+                                }
+                            } catch (error) {
+                                readingRoom.classList.toggle("sk-reader-fullscreen-fallback");
+                            }
+
+                            updateFullscreenButton();
+                        });
+
+                        document.addEventListener("fullscreenchange", updateFullscreenButton);
+                    }
+
+                    preparePages();
+                    setFontSize(defaultFontSize);
+                    renderPage();
+                    
+                })();
+                </script>
+
+            {% else %}
+                <div class="sk-reader-empty">
+                    <div class="sk-reader-empty-icon" aria-hidden="true">📖</div>
+                    <h3>This story is getting ready</h3>
+                    <p>
+                        The reading version of this book is not available yet.
+                        In the meantime, discover another adventure in our free library.
+                    </p>
+                    <a href="{% url 'books:library' %}" class="sk-reader-nav-button">
+                        Explore the library
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+
+    </div>
+</section>
+{% endblock %}
