@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us | The Storybook World{% endblock %}
+
+{% block meta_description %}
+The Storybook World is a subsidiary of Superkids World, celebrating African tales and global narratives through the Superkids Storybook Club and SuperStorybook campaign.
+{% endblock %}
+
+{% block content %}
+
+<article class="sk-about">
+
+    <!-- Page introduction -->
+    <header class="sk-about-header">
+        <div class="container">
+            <div class="sk-about-header-inner">
+                <span class="sk-about-kicker">
+                    SUPERKIDS WORLD
+                    <span aria-hidden="true">/</span>
+                    ABOUT US
+                </span>
+
+                <h1 class="sk-about-title">
+                    The Storybook
+                    <span>World.</span>
+                </h1>
+
+                <p class="sk-about-intro">
+                    Celebrating the magic of storybooks, with a special
+                    heartbeat for African tales and global narratives
+                    that inspire leadership.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- About the organisation -->
+    <section class="sk-about-section">
+        <div class="container">
+            <div class="sk-about-grid">
+                <div class="sk-about-main">
+                    <span class="sk-about-index">01 / ABOUT THE ORGANISATION</span>
+
+                    <h2>Who we are</h2>
+
+                    <p>
+                        The Storybook World is a subsidiary of Superkids
+                        World, a social, education and entertainment outfit
+                        that promotes novelty, talent and morals, equipping
+                        children with the necessary skills, abilities and
+                        competencies to develop society and become
+                        global champions.
+                    </p>
+
+                    <p>
+                        At The Storybook World, we celebrate the magic of
+                        storybooks and craft engaging experiences for young
+                        readers. We use knowledge and values-based stories
+                        across different genres, including African folktales,
+                        mystery books, feature books and biographies, to
+                        inspire children of Africa.
+                    </p>
+                </div>
+
+                <aside class="sk-about-visual">
+                    <img
+                        src="{% static 'images/chidren-about.jpg' %}"
+                        alt="Children sharing stories and exploring books"
+                        loading="lazy"
+                    >
+
+                    <div class="sk-about-image-note">
+                        <span class="sk-about-note-mark" aria-hidden="true">
+                            <i class="bi bi-book-half"></i>
+                        </span>
+                        <span>THE STORYBOOK WORLD</span>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+
+<!-- The campaign -->
+    <section class="sk-about-campaign">
+        <div class="container">
+            <div class="sk-about-campaign-inner">
+
+                <div class="sk-about-campaign-label">
+                    <span class="sk-about-index">02 / OUR CAMPAIGN</span>
+                    
+                </div>
+
+                <div class="sk-about-campaign-grid">
+
+                    <div class="sk-about-campaign-content">
+                        <h2>
+                            Superkids-Are-Inspired-by-SuperStorybook Campaign
+                        </h2>
+
+                        <p>
+                            The erosion of values among children poses a threat
+                            to our future and leadership recruitment process.
+                            Concerned about this attitudinal decline and
+                            societal disorderliness, our organisation initiated
+                            the Superkids-Are-Inspired-by-SuperStorybook
+                            Campaign and the launch of the Superkids Storybook
+                            Club in primary and secondary schools across Nigeria.
+                        </p>
+
+                        <p>
+                            The campaign is designed to create awareness of
+                            the advantages of reading and using stories to
+                            impact morals in Nigeria's future leaders.
+                        </p>
+
+                        <p>
+                            The campaign launch brings book writers, book
+                            reviewers and students together in an atmosphere
+                            of fun, adventures and refreshments. Students are
+                            also introduced to how they can package and fund
+                            their literary content into books, while the
+                            Superkids Storybook Club is launched.
+                        </p>
+                    </div>
+
+                    <!-- Campaign image -->
+                    <div class="sk-about-campaign-visual">
+                        <div class="sk-about-campaign-image-frame">
+                            <img
+                                src="{% static 'images/children-contest.jpg' %}"
+                                alt="Children participating in a reading or literary activity"
+                                class="sk-about-campaign-image"
+                                loading="lazy"
+                            >
+                        </div>
+                        <p class="sk-about-campaign-image-caption">
+                            Inspiring young minds through stories and reading.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The club -->
+    <section class="sk-about-section sk-about-club">
+        <div class="container">
+            <div class="sk-about-club-grid">
+                <div class="sk-about-club-heading">
+                    <span class="sk-about-index">03 / THE COMMUNITY</span>
+
+                    <h2>
+                        The Superkids
+                        <span>Storybook Club.</span>
+                    </h2>
+                </div>
+
+                <div class="sk-about-club-content">
+                    <p>
+                        The Superkids Storybook Club is a community of
+                        Nigerian children inspired by the power of stories
+                        and books to help reshape and redefine leadership.
+                    </p>
+
+                    <p>
+                        Members are dedicated to exploring the world of
+                        storytelling and fostering a lifelong love for
+                        reading and knowledge as tools for social change.
+                    </p>
+
+                    <div class="sk-about-club-facts">
+                        <div class="sk-about-fact">
+                            <span class="sk-about-fact-label">
+                                ELIGIBLE AGE
+                            </span>
+                            <strong>4–16 years</strong>
+                        </div>
+
+                        <div class="sk-about-fact">
+                            <span class="sk-about-fact-label">
+                                ANNUAL REGISTRATION
+                            </span>
+                            <strong>₦6,000 <small>per student</small></strong>
+                        </div>
+                    </div>
+
+                    <p class="sk-about-fee-note">
+                        Annual registration comes with specialised
+                        membership benefits.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</article>
+
+{% endblock %}

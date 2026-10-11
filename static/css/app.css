@@ -1239,3 +1239,506 @@ button, a, input, select, textarea {
         transform: none;
     }
 }
+
+/* ==========================================================================
+   ABOUT PAGE — EDITORIAL TYPOGRAPHY AND LAYOUT
+   ========================================================================== */
+
+.sk-about {
+    --sk-about-ink: var(--sk-navy);
+    --sk-about-copy: #45566b;
+    color: var(--sk-text);
+}
+
+.sk-about p {
+    margin-bottom: 1.2rem;
+    color: var(--sk-about-copy);
+    font-size: 1.025rem;
+    line-height: 1.95;
+}
+
+.sk-about h2 {
+    color: var(--sk-about-ink);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.45rem);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 1.2;
+}
+
+.sk-about-header {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    border-bottom: 1px solid var(--sk-border);
+    background:
+        radial-gradient(
+            ellipse at 88% 20%,
+            rgb(255 212 92 / 24%),
+            transparent 28rem
+        ),
+        linear-gradient(115deg, var(--sk-cream), #ffffff 75%);
+}
+
+.sk-about-header::after {
+    position: absolute;
+    right: -4rem;
+    bottom: -8rem;
+    width: 19rem;
+    height: 19rem;
+    border: 1px solid rgb(40 104 168 / 12%);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+
+.sk-about-header-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 57rem;
+}
+
+.sk-about-kicker,
+.sk-about-index,
+.sk-about-fact-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--sk-blue);
+    font-size: 0.73rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.sk-about-kicker span {
+    color: var(--sk-orange);
+}
+
+.sk-about-title {
+    max-width: 11ch;
+    margin: 1.35rem 0 1.5rem;
+    color: var(--sk-navy);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(3.5rem, 8.5vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -0.085em;
+    line-height: 0.98;
+}
+
+.sk-about-title span {
+    display: block;
+    color: var(--sk-blue);
+}
+
+.sk-about .sk-about-intro {
+    max-width: 43rem;
+    margin-bottom: 0;
+    color: var(--sk-text-muted);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+.sk-about-section {
+    padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+.sk-about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(17rem, 0.8fr);
+    align-items: start;
+    gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+.sk-about-main {
+    max-width: 44rem;
+}
+
+.sk-about-index {
+    margin-bottom: 1.35rem;
+    color: var(--sk-orange);
+    font-size: 0.68rem;
+}
+
+.sk-about-main h2 {
+    margin-bottom: 1.6rem;
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+}
+
+.sk-about-visual {
+    position: relative;
+    margin: 0.5rem 0 0;
+    padding: 0 0 1rem 1rem;
+}
+
+.sk-about-visual::before {
+    position: absolute;
+    inset: 1rem 1rem 0 0;
+    border-radius: var(--sk-radius-lg);
+    background: var(--sk-yellow);
+    content: "";
+}
+
+.sk-about-visual img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
+    border: 0.35rem solid var(--sk-white);
+    border-radius: var(--sk-radius-lg);
+    object-fit: cover;
+    box-shadow: var(--sk-shadow-md);
+}
+
+.sk-about-image-note {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: -1.8rem 0 0 1rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--sk-border);
+    border-radius: var(--sk-radius-md);
+    background: var(--sk-white);
+    box-shadow: var(--sk-shadow-sm);
+    color: var(--sk-navy);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+.sk-about-note-mark {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--sk-radius-sm);
+    background: var(--sk-blue-light);
+    color: var(--sk-blue);
+    font-size: 1.15rem;
+}
+
+.sk-about-campaign {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background: var(--sk-navy);
+    color: var(--sk-white);
+}
+
+.sk-about-campaign-inner {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.65fr) minmax(0, 1.5fr);
+    gap: clamp(2rem, 6vw, 6rem);
+}
+
+.sk-about-campaign .sk-about-index {
+    color: var(--sk-yellow);
+}
+
+.sk-about-campaign-number {
+    display: block;
+    margin-top: 1.5rem;
+    color: rgb(255 255 255 / 12%);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(5rem, 11vw, 9rem);
+    font-weight: 900;
+    letter-spacing: -0.09em;
+    line-height: 0.9;
+}
+
+.sk-about-campaign h2 {
+    max-width: 17ch;
+    margin-bottom: 1.8rem;
+    color: var(--sk-white);
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    letter-spacing: -0.055em;
+}
+
+.sk-about-campaign p {
+    color: rgb(255 255 255 / 79%);
+}
+
+.sk-about-club {
+    background: var(--sk-surface);
+}
+
+.sk-about-club-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+}
+
+.sk-about-club-heading h2 {
+    max-width: 10ch;
+    margin-top: 0.8rem;
+    font-size: clamp(2.7rem, 5vw, 4.4rem);
+    letter-spacing: -0.07em;
+    line-height: 1.06;
+}
+
+.sk-about-club-heading h2 span {
+    display: block;
+    color: var(--sk-blue);
+}
+
+.sk-about-club-content {
+    padding-top: 0.3rem;
+}
+
+.sk-about-club-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.sk-about-fact {
+    min-width: 0;
+    padding: 1.4rem;
+    border: 1px solid var(--sk-border);
+    border-top: 3px solid var(--sk-yellow);
+    border-radius: var(--sk-radius-md);
+    background: var(--sk-cream);
+}
+
+.sk-about-fact-label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.09em;
+}
+
+.sk-about-fact strong {
+    display: block;
+    color: var(--sk-navy);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 1.3;
+}
+
+.sk-about-fact strong small {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--sk-text-muted);
+    font-family: var(--sk-font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.sk-about .sk-about-fee-note {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .sk-about-header {
+        padding-block: 4rem;
+    }
+
+    .sk-about-title {
+        font-size: clamp(3.25rem, 13vw, 5rem);
+    }
+
+    .sk-about-grid,
+    .sk-about-campaign-inner,
+    .sk-about-club-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+    }
+
+    .sk-about-visual {
+        width: 100%;
+        max-width: 27rem;
+        margin-inline: auto;
+    }
+
+    .sk-about-campaign-number {
+        display: none;
+    }
+
+    .sk-about-campaign h2 {
+        max-width: none;
+    }
+
+    .sk-about-club-heading h2 {
+        max-width: 12ch;
+    }
+
+    .sk-about-club-facts {
+        gap: 0.75rem;
+    }
+
+    .sk-about-fact {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .sk-about-club-facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* =========================================
+   ABOUT — CAMPAIGN SECTION
+   ========================================= */
+
+.sk-about-campaign {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background: var(--sk-blue-light);
+    border-top: 1px solid rgb(40 104 168 / 8%);
+    border-bottom: 1px solid rgb(40 104 168 / 8%);
+}
+
+.sk-about-campaign-inner {
+    position: relative;
+}
+
+.sk-about-campaign-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.sk-about-campaign .sk-about-index {
+    color: var(--sk-blue);
+}
+
+.sk-about-campaign-number {
+    color: rgb(23 52 92 / 10%);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+}
+
+.sk-about-campaign-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+}
+
+.sk-about-campaign-content {
+    min-width: 0;
+}
+
+.sk-about-campaign-content h2 {
+    max-width: 680px;
+    margin: 0 0 1.5rem;
+    color: var(--sk-navy);
+    font-family: var(--sk-font-heading);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 900;
+    line-height: 1.13;
+    letter-spacing: -0.045em;
+}
+
+.sk-about-campaign-content p {
+    margin-bottom: 1.1rem;
+    color: var(--sk-text);
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.sk-about-campaign-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Campaign image */
+.sk-about-campaign-visual {
+    min-width: 0;
+}
+
+.sk-about-campaign-image-frame {
+    position: relative;
+    padding: 0.65rem;
+    background: var(--sk-white);
+    border: 1px solid rgb(23 52 92 / 7%);
+    border-radius: var(--sk-radius-lg);
+    box-shadow: var(--sk-shadow-md);
+}
+
+.sk-about-campaign-image-frame::before {
+    position: absolute;
+    z-index: 0;
+    top: -12px;
+    right: -12px;
+    width: 85px;
+    height: 85px;
+    background: var(--sk-yellow);
+    border-radius: var(--sk-radius-md);
+    content: "";
+}
+
+.sk-about-campaign-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+    border-radius: calc(var(--sk-radius-lg) - 0.35rem);
+}
+
+.sk-about-campaign-image-caption {
+    margin: 1rem 0 0;
+    color: var(--sk-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* Keep the layout comfortable on smaller screens */
+@media (max-width: 767.98px) {
+    .sk-about-campaign {
+        padding-block: 3.5rem;
+    }
+
+    .sk-about-campaign-label {
+        margin-bottom: 1.75rem;
+    }
+
+    .sk-about-campaign-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .sk-about-campaign-content h2 {
+        font-size: clamp(2rem, 8vw, 2.7rem);
+    }
+
+    .sk-about-campaign-visual {
+        margin: 0 0.5rem;
+    }
+
+    .sk-about-campaign-image {
+        aspect-ratio: 5 / 4;
+    }
+}
+
+@media (max-width: 420px) {
+    .sk-about-campaign-image-frame {
+        padding: 0.45rem;
+    }
+
+    .sk-about-campaign-image-frame::before {
+        top: -8px;
+        right: -8px;
+        width: 60px;
+        height: 60px;
+    }
+}
