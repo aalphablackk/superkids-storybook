@@ -117,6 +117,105 @@ A creative community where children discover stories, develop their writing and 
     </div>
 </section>
 
+<!-- FEATURED STORYBOOKS -->
+<section class="sk-section sk-featured-books">
+    <div class="container">
+
+        <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-end gap-3 mb-4">
+
+            <div>
+                <span class="sk-eyebrow">Picked for young readers</span>
+                <h2 class="sk-section-title mt-2">
+                    Featured storybooks
+                </h2>
+                <p class="sk-section-description mb-0">
+                    Discover stories that spark curiosity and imagination.
+                </p>
+            </div>
+
+            <a href="{% url 'books:library' %}"
+               class="btn sk-btn sk-btn-primary">
+                Explore all books
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for book in featured_books %}
+                <div class="col-6 col-md-4 col-lg-2">
+                    <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+
+                        <a href="{% url 'books:book_detail' slug=book.slug %}"
+                           class="text-decoration-none">
+
+                            {% if book.poster_source %}
+                                <img
+                                    src="{{ book.poster_source }}"
+                                    class="card-img-top"
+                                    alt="Cover of {{ book.title }}"
+                                    loading="lazy"
+                                    style="height: 220px; object-fit: cover;"
+                                >
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center
+                                            justify-content-center"
+                                     style="height: 220px;">
+                                    <span class="text-muted small">
+                                        Cover unavailable
+                                    </span>
+                                </div>
+                            {% endif %}
+
+                        </a>
+
+                        <div class="card-body d-flex flex-column p-3">
+
+                            <span class="small text-muted mb-2">
+                                {{ book.category.name }}
+                            </span>
+
+                            <h3 class="h6 fw-bold mb-2">
+                                <a href="{% url 'books:book_detail' slug=book.slug %}"
+                                   class="text-decoration-none text-dark">
+                                    {{ book.title }}
+                                </a>
+                            </h3>
+
+                            <p class="small text-muted mb-3">
+                                {{ book.author.name }}
+                            </p>
+
+                            <a href="{% url 'books:book_detail' slug=book.slug %}"
+                               class="btn btn-outline-primary btn-sm mt-auto">
+                                View book
+                            </a>
+
+                        </div>
+                    </article>
+                </div>
+
+            {% empty %}
+                <div class="col-12">
+                    <div class="p-4 rounded-4 bg-light text-center">
+                        <p class="mb-2">
+                            Our featured storybooks are coming soon.
+                        </p>
+                        <a href="{% url 'books:library' %}"
+                           class="text-decoration-none">
+                            Browse the library
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+
 <!-- THE JOURNEY -->
 <section class="sk-home-journey sk-section">
     <div class="container">

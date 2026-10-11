@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Storybook Library | Superkids Storybook{% endblock %}
+
+{% block meta_description %}
+Explore the Superkids free storybook library. Discover stories, explore categories, and enjoy reading online.
+{% endblock %}
+
+{% block content %}
+<section class="sk-library-page">
+    <div class="container">
+
+        <!-- Page heading -->
+        <header class="sk-library-header">
+            <span class="sk-eyebrow">THE STORYBOOK LIBRARY</span>
+            <h1 class="sk-library-title">
+                Every story opens <span>a new world.</span>
+            </h1>
+            <p class="sk-library-intro">
+                Discover stories that spark imagination, celebrate African
+                heritage, and inspire young readers. Choose a book and start
+                reading for free.
+            </p>
+        </header>
+
+        <!-- Search and filters -->
+        <div class="sk-library-toolbar">
+            <form method="get" action="{% url 'books:library' %}"
+                  class="sk-library-search">
+                <label for="library-search" class="visually-hidden">
+                    Search storybooks
+                </label>
+                <input
+                    id="library-search"
+                    type="search"
+                    name="q"
+                    value="{{ search_query }}"
+                    class="form-control"
+                    placeholder="Search titles, authors or genres..."
+                >
+                {% if selected_category %}
+                    <input type="hidden" name="category"
+                           value="{{ selected_category }}">
+                {% endif %}
+                <button type="submit" class="btn sk-library-search-btn">
+                    Search
+                </button>
+            </form>
+
+            <form method="get" action="{% url 'books:library' %}"
+                  class="sk-library-category-form">
+                <label for="library-category" class="visually-hidden">
+                    Filter by category
+                </label>
+                {% if search_query %}
+                    <input type="hidden" name="q" value="{{ search_query }}">
+                {% endif %}
+                <select
+                    id="library-category"
+                    name="category"
+                    class="form-select"
+                    onchange="this.form.submit()"
+                >
+                    <option value="">All categories</option>
+                    {% for category in categories %}
+                        <option
+                            value="{{ category.slug }}"
+                            {% if selected_category == category.slug %}selected{% endif %}
+                        >
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+        <!-- Results -->
+        <div class="sk-library-results-heading">
+            <div>
+                <h2>Explore the collection</h2>
+                <p>
+                    {% if search_query %}
+                        Results for "{{ search_query }}"
+                    {% elif selected_category %}
+                        Stories in your selected category
+                    {% else %}
+                        Find your next favourite story.
+                    {% endif %}
+                </p>
+            </div>
+            <span class="sk-library-result-count">
+                {{ page_obj.paginator.count }}
+                {% if page_obj.paginator.count == 1 %}book{% else %}books{% endif %}
+            </span>
+        </div>
+
+        {% if books %}
+            <div class="sk-library-grid">
+                {% for book in books %}
+                    <article class="sk-library-card">
+                        <a
+                            href="{% url 'books:book_detail' book.slug %}"
+                            class="sk-library-cover-link"
+                            aria-label="View {{ book.title }}"
+                        >
+                            <div class="sk-library-cover">
+                                {% if book.poster_source %}
+                                    <img
+                                        src="{{ book.poster_source }}"
+                                        alt="Cover of {{ book.title }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div class="sk-library-cover-placeholder">
+                                        <span class="sk-library-placeholder-label">
+                                            SUPERKIDS STORYBOOK
+                                        </span>
+                                        <span class="sk-library-placeholder-title">
+                                            {{ book.title }}
+                                        </span>
+                                        <span class="sk-library-placeholder-category">
+                                            {{ book.category.name }}
+                                        </span>
+                                    </div>
+                                {% endif %}
+
+                                {% if book.is_featured %}
+                                    <span class="sk-library-featured">
+                                        Featured
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </a>
+
+                        <div class="sk-library-card-body">
+                            <span class="sk-library-category">
+                                {{ book.category.name }}
+                            </span>
+
+                            <h3>
+                                <a href="{% url 'books:book_detail' book.slug %}">
+                                    {{ book.title }}
+                                </a>
+                            </h3>
+
+                            <p class="sk-library-author">
+                                By {{ book.author.name }}
+                            </p>
+
+                            <p class="sk-library-description">
+                                {{ book.description|truncatewords:20 }}
+                            </p>
+
+                            {% if book.age_min != None or book.age_max != None %}
+                                <p class="sk-library-age">
+                                    {% if book.age_min != None and book.age_max != None %}
+                                        Ages {{ book.age_min }}–{{ book.age_max }}
+                                    {% elif book.age_min != None %}
+                                        Ages {{ book.age_min }}+
+                                    {% else %}
+                                        Up to age {{ book.age_max }}
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+
+                            <a
+                                href="{% url 'books:book_detail' book.slug %}"
+                                class="sk-library-read-link"
+                            >
+                                Explore story <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <nav class="sk-library-pagination"
+                     aria-label="Storybook pages">
+                    {% if page_obj.has_previous %}
+                        <a href="?q={{ search_query|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.previous_page_number }}">
+                            Previous
+                        </a>
+                    {% endif %}
+
+                    <span>
+                        Page {{ page_obj.number }} of
+                        {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ search_query|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.next_page_number }}">
+                            Next
+                        </a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+
+        {% else %}
+            <div class="sk-library-empty">
+                <h3>No storybooks found just yet.</h3>
+                <p>
+                    Try a different search or choose another category.
+                    New stories will appear here as they are added.
+                </p>
+                <a href="{% url 'books:library' %}"
+                   class="btn sk-library-search-btn">
+                    Browse all storybooks
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

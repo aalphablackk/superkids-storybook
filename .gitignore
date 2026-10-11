@@ -7,3 +7,5 @@ media/
 *.sqlite3
 documentation.md
 apppp.css
+add_sample_stories.py
+seed_data.py
