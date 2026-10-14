@@ -23,28 +23,43 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY", default="")
+# SECRET_KEY = config("SECRET_KEY", default="")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=True, cast=bool)
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = config("DEBUG", default=True, cast=bool)
 
 
+
+# ALLOWED_HOSTS = [
+#     host.strip()
+#     for host in config(
+#         "ALLOWED_HOSTS",
+#         default="*"
+#     ).split(",")
+#     if host.strip()
+# ]
+
+
+SECRET_KEY = config("SECRET_KEY")
+
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
     host.strip()
     for host in config(
         "ALLOWED_HOSTS",
-        default="*"
+        default="127.0.0.1,localhost",
     ).split(",")
     if host.strip()
 ]
-
-# CSRF_TRUSTED_ORIGINS = [
-#     origin.strip()
-#     for origin in config("CSRF_TRUSTED_ORIGINS", default="").split(",")
-#     if origin.strip()
-# ]
-
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in config(
+        "CSRF_TRUSTED_ORIGINS",
+        default="",
+    ).split(",")
+    if origin.strip()
+]
 # ============================================================
 # CLOUDINARY
 # ============================================================
@@ -77,6 +92,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -110,13 +126,18 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 
 
+# ============================================================
+# DATABASE — POSTGRESQL IN PRODUCTION, MYSQL LOCALLY
+# ============================================================
+
 DATABASE_URL = config("DATABASE_URL", default="").strip()
+
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=not DEBUG,
+            conn_max_age=0,
+            ssl_require=True,
         )
     }
 else:
@@ -131,8 +152,6 @@ else:
             "OPTIONS": {"charset": "utf8mb4"},
         }
     }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -229,11 +248,11 @@ AUTHENTICATION_BACKENDS = [
 
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = "DENY"
-
 
 AUTH_USER_MODEL = "accounts.User"
 # ============================================================
